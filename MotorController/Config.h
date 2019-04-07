@@ -22,12 +22,12 @@
 #define WHEEL_DIAMETER 80               // in mm
 #define WHEEL_DISTANCE 240              // in mm
 
-#define ENC_STEPS_PER_ROTATION 64*130   // PPR * gearbox ratio        TODO 130?
+#define ENC_STEPS_PER_ROTATION 64*70   // PPR * gearbox ratio
 
 // ------------------------- Speeds -----------------------------
 
-#define DEFAULT_SPEED 150               // todo units, probably just PWM value (0-255)
-#define DEFAULT_ACC 10                  // same here
+#define DEFAULT_SPEED 200               // in mm/s
+#define DEFAULT_ACC 100                 // in mm/s*s
 
 
 // ---------------------- Communication -------------------------

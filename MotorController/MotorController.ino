@@ -8,7 +8,7 @@ volatile long leftMotorTacho = 0;
 boolean lastRA = false, lastRB = false, lastLA = false, lastLB = false;
 
 float xEst = 0, yEst = 0, fiEst = 0;
-long lastRTacho = 0, lastLTacho = 0;
+long lastRTachoPos = 0, lastLTachoPos = 0;
 
 void setup() {
 
@@ -24,6 +24,10 @@ void setup() {
   attachPinChangeInterrupt(L_MOTOR_ENC_A, isrLA, CHANGE);
   attachPinChangeInterrupt(L_MOTOR_ENC_B, isrLB, CHANGE);
 
+  delay(1000);
+
+  initCom();
+  initController();
 }
 
 void loop() {
@@ -31,6 +35,8 @@ void loop() {
   //updatePosEst();
   //updateMovement();
   //updateCom();
+
+  delay(10);    // for bigger distances between regulator steps
 
 }
 
@@ -56,13 +62,13 @@ void isrLB() {
 }
 
 void updatePosEst() {
-  int rDiff = rightMotorTacho - lastRTacho;
-  int lDiff = leftMotorTacho - lastLTacho;
-
+  int rDiff = rightMotorTacho - lastRTachoPos;
+  int lDiff = leftMotorTacho - lastLTachoPos;
+  lastRTachoPos = rightMotorTacho;
+  lastLTachoPos = leftMotorTacho;
+  
   //todo
 
-  lastRTacho = rightMotorTacho;
-  lastLTacho = leftMotorTacho;
 }
 
 float count2mm(long count){
