@@ -1,10 +1,11 @@
 #include "Config.h"
 
 #define STOP 0
-#define FORWARD 1
-#define FORWARD_DIST 2
-#define TURN_CONTRA 3
-#define TURN_WHEEL 4
+#define FLOAT 1
+#define FORWARD 2
+#define FORWARD_DIST 3
+#define TURN_CONTRA 4
+#define TURN_WHEEL 5
 
 int actualLSpeed = 0;
 int actualRSpeed = 0;
@@ -45,6 +46,9 @@ void updateMovement(){
   // TODO speed regulator, speed calculations for each case
   switch(moveState){
     case STOP:
+
+      break;
+    case FLOAT:
 
       break;
     case FORWARD:

@@ -2,7 +2,7 @@
 //              MotorController configuration file
 //
 // here you can set all possible things about motors and movement
-
+// note: If you want to change motor direction, just flip its pins
 
 // ------------------------- Pinout -----------------------------
 
@@ -10,6 +10,9 @@
 #define R_MOTOR_ENC_B 3
 #define L_MOTOR_ENC_A 8
 #define L_MOTOR_ENC_B 9
+
+#define R_MOTOR_ENABLE 4
+#define L_MOTOR_ENABLE 7
 
 #define R_MOTOR_A 5                     // must be PWM pin!
 #define R_MOTOR_B 6                     // must be PWM pin!

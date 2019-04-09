@@ -19,6 +19,12 @@ void setup() {
   pinMode(L_MOTOR_ENC_A, INPUT_PULLUP);
   pinMode(L_MOTOR_ENC_B, INPUT_PULLUP);
 
+  pinMode(R_MOTOR_ENABLE, OUTPUT);
+  pinMode(L_MOTOR_ENABLE, OUTPUT);
+
+  digitalWrite(R_MOTOR_ENABLE, LOW);
+  digitalWrite(L_MOTOR_ENABLE, LOW);
+
   attachPinChangeInterrupt(R_MOTOR_ENC_A, isrRA, CHANGE);
   attachPinChangeInterrupt(R_MOTOR_ENC_B, isrRB, CHANGE);
   attachPinChangeInterrupt(L_MOTOR_ENC_A, isrLA, CHANGE);

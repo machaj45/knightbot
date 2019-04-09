@@ -15,6 +15,7 @@ void initCom(){
 
 
 // TODO define move commands
+// TODO add command queue ?
 // TODO set job to motorcontroller when last completed
 
 void updateCom(){
