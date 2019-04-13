@@ -6,8 +6,8 @@
 
 // ------------------------- Pinout -----------------------------
 
-#define R_MOTOR_ENC_A 2
-#define R_MOTOR_ENC_B 3
+#define R_MOTOR_ENC_A 3
+#define R_MOTOR_ENC_B 2
 #define L_MOTOR_ENC_A 8
 #define L_MOTOR_ENC_B 9
 

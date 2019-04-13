@@ -69,12 +69,21 @@ void updateMovement(){
   
 }
 
+void enableMotors(boolean enable){
+  digitalWrite(R_MOTOR_ENABLE, enable ? HIGH:LOW);
+  digitalWrite(L_MOTOR_ENABLE, enable ? HIGH:LOW);
+}
+
+void floatMotors(){
+  enableMotors(false);
+}
 
 void forward(boolean dir){
   forward(dir, 99999999);
 }
-
+// TODO remove dir
 void forward(boolean dir, long dist){
+  enableMotors(true);
   isAccelerating = true;
   moveState = FORWARD;
   targetRTacho = rightMotorTacho + mm2count(dist);
@@ -86,6 +95,7 @@ void stopMotors(){
 }
 
 void stopMotors(boolean immediate){
+  enableMotors(true);
   isAccelerating = false;
   moveState = STOP;
   if(immediate){
@@ -103,6 +113,7 @@ void setAcceleration(int ta){
 }
 
 void turnContra(float angle){
+  enableMotors(true);
   isAccelerating = true;
   moveState = TURN_CONTRA;
   int dist = 0; // --------------------------------------   TODO calculate arc length
@@ -112,14 +123,15 @@ void turnContra(float angle){
 }
 
 void turnOneWheel(float angle, boolean dir){
+  enableMotors(true);
   isAccelerating = true;
   moveState = TURN_WHEEL;
   int dist = 0; // --------------------------------------   TODO calculate arc length, not the same as above !
   dist *= dir ? 1 : -1;
   if(angle > 0 ){
-    targetRTacho = rightMotorTacho + mm2count(dist));
+    targetRTacho = rightMotorTacho + mm2count(dist);
   }else{
-    targetLTacho = leftMotorTacho + mm2count(dist));
+    targetLTacho = leftMotorTacho + mm2count(dist);
   }
 }
 

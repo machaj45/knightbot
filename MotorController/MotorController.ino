@@ -22,8 +22,7 @@ void setup() {
   pinMode(R_MOTOR_ENABLE, OUTPUT);
   pinMode(L_MOTOR_ENABLE, OUTPUT);
 
-  digitalWrite(R_MOTOR_ENABLE, LOW);
-  digitalWrite(L_MOTOR_ENABLE, LOW);
+  enableMotors(false);
 
   attachPinChangeInterrupt(R_MOTOR_ENC_A, isrRA, CHANGE);
   attachPinChangeInterrupt(R_MOTOR_ENC_B, isrRB, CHANGE);
@@ -32,7 +31,7 @@ void setup() {
 
   delay(1000);
 
-  initCom();
+  //initCom();
   initController();
 }
 
@@ -42,6 +41,20 @@ void loop() {
   //updateMovement();
   //updateCom();
 
+
+  //just testing mototrs
+  enableMotors(true);
+  
+  analogWrite(R_MOTOR_A, 250);
+  analogWrite(R_MOTOR_B, 0);
+  analogWrite(L_MOTOR_A, 250);
+  analogWrite(L_MOTOR_B, 0);
+
+  delay(1000);
+
+  Serial.print(rightMotorTacho);
+  Serial.print("  ");
+  Serial.println(leftMotorTacho);
   delay(10);    // for bigger distances between regulator steps
 
 }
