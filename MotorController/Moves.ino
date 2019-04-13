@@ -1,12 +1,5 @@
 #include "Config.h"
 
-#define STOP 0
-#define FLOAT 1
-#define FORWARD 2
-#define FORWARD_DIST 3
-#define TURN_CONTRA 4
-#define TURN_WHEEL 5
-
 int actualLSpeed = 0;
 int actualRSpeed = 0;
 int calculatedLSpeed = 0;
@@ -60,7 +53,7 @@ void updateMovement(){
     case TURN_CONTRA:
     
       break;
-    case TURN_WHEEL:
+    case TURN_WHEEL_F:
 
       break;
   
@@ -78,11 +71,11 @@ void floatMotors(){
   enableMotors(false);
 }
 
-void forward(boolean dir){
-  forward(dir, 99999999);
+void forward(boolean dir){  //true is forward
+  forward(999999*(dir ? 1 : -1));
 }
-// TODO remove dir
-void forward(boolean dir, long dist){
+
+void forward(long dist){
   enableMotors(true);
   isAccelerating = true;
   moveState = FORWARD;
@@ -91,25 +84,19 @@ void forward(boolean dir, long dist){
 }
 
 void stopMotors(){
-  stopMotors(false);
-}
-
-void stopMotors(boolean immediate){
   enableMotors(true);
   isAccelerating = false;
   moveState = STOP;
-  if(immediate){
-    calculatedRSpeed = 0;
-    calculatedLSpeed = 0;  
-  }
 }
 
 void setMotorSpeed(int ts){
   targetSpeed = ts;
+  nextCommand();
 }
 
 void setAcceleration(int ta){
   targetAcc = ta;
+  nextCommand();
 }
 
 void turnContra(float angle){
@@ -122,10 +109,10 @@ void turnContra(float angle){
   
 }
 
-void turnOneWheel(float angle, boolean dir){
+void turnOneWheel(float angle, boolean dir){  //true is forward
   enableMotors(true);
   isAccelerating = true;
-  moveState = TURN_WHEEL;
+  moveState = TURN_WHEEL_F;
   int dist = 0; // --------------------------------------   TODO calculate arc length, not the same as above !
   dist *= dir ? 1 : -1;
   if(angle > 0 ){

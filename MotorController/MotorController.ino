@@ -21,6 +21,9 @@ void setup() {
 
   pinMode(R_MOTOR_ENABLE, OUTPUT);
   pinMode(L_MOTOR_ENABLE, OUTPUT);
+  
+  pinMode(LED0, OUTPUT);
+  pinMode(LED1, OUTPUT);
 
   enableMotors(false);
 
@@ -29,17 +32,20 @@ void setup() {
   attachPinChangeInterrupt(L_MOTOR_ENC_A, isrLA, CHANGE);
   attachPinChangeInterrupt(L_MOTOR_ENC_B, isrLB, CHANGE);
 
-  delay(1000);
+  digitalWrite(LED0, HIGH);
+  delay(1000);    // waiting for master to be ready
 
-  //initCom();
+  initCom();
   initController();
+
+  digitalWrite(LED0, LOW);
 }
 
 void loop() {
 
   //updatePosEst();
-  //updateMovement();
-  //updateCom();
+  updateMovement();
+  updateCom();
 
 
   //just testing mototrs
@@ -86,7 +92,7 @@ void updatePosEst() {
   lastRTachoPos = rightMotorTacho;
   lastLTachoPos = leftMotorTacho;
   
-  //todo
+  //todo --------------------------------------------- TODO
 
 }
 

@@ -19,6 +19,8 @@
 #define L_MOTOR_A 10                    // must be PWM pin!
 #define L_MOTOR_B 11                    // must be PWM pin!
 
+#define LED0 12
+#define LED1 13
 
 //------------------------ Dimensions ---------------------------
 
@@ -36,3 +38,14 @@
 // ---------------------- Communication -------------------------
 
 #define SERIAL_BAUDRATE 115200
+
+// commands:
+#define STOP 1
+#define FLOAT 2
+#define FORWARD 3
+#define FORWARD_DIST 4
+#define TURN_CONTRA 5
+#define TURN_WHEEL_F 6
+#define TURN_WHEEL_B 7
+#define SET_SPEED 8
+#define SET_ACC 9
