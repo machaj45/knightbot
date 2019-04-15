@@ -2,6 +2,8 @@
 #include "Config.h"
 #include "PinChangeInt-master/PinChangeInt.h"
 
+#define CYCLE_PERIOD 2      // in ms
+
 volatile long rightMotorTacho = 0;
 volatile long leftMotorTacho = 0;
 
@@ -42,27 +44,26 @@ void setup() {
 }
 
 void loop() {
-
+  long currTime = micros();
   //updatePosEst();
   updateMovement();
   updateCom();
 
 
-  //just testing mototrs
-  enableMotors(true);
-  
-  analogWrite(R_MOTOR_A, 250);
-  analogWrite(R_MOTOR_B, 0);
-  analogWrite(L_MOTOR_A, 250);
-  analogWrite(L_MOTOR_B, 0);
+  //just testing motors
+//  enableMotors(true);
+////  
+//  updateMotors(0,0);
+//
+//  delay(1000);
+//
+//  Serial.print(rightMotorTacho);
+//  Serial.print("  ");
+//  Serial.println(leftMotorTacho);
 
-  delay(1000);
 
-  Serial.print(rightMotorTacho);
-  Serial.print("  ");
-  Serial.println(leftMotorTacho);
-  delay(10);    // for bigger distances between regulator steps
-
+  int tLeft = (CYCLE_PERIOD*1000) - (micros() - currTime);
+  delayMicroseconds(tLeft);       // stabilizing regulation period
 }
 
 
@@ -97,9 +98,9 @@ void updatePosEst() {
 }
 
 float count2mm(long count){
-  return (count/ENC_STEPS_PER_ROTATION)*WHEEL_DIAMETER*PI;
+  return (float)(count/(float)ENC_STEPS_PER_ROTATION)*WHEEL_DIAMETER*PI;
 }
 
-long mm2count(int mm){
-  return (mm/(WHEEL_DIAMETER*PI))*ENC_STEPS_PER_ROTATION;
+long mm2count(int mm){    // TODO check if works properly
+  return (float)((float)mm/((float)WHEEL_DIAMETER*PI))*(float)ENC_STEPS_PER_ROTATION;
 }

@@ -14,10 +14,10 @@
 #define R_MOTOR_ENABLE 4
 #define L_MOTOR_ENABLE 7
 
-#define R_MOTOR_A 5                     // must be PWM pin!
-#define R_MOTOR_B 6                     // must be PWM pin!
-#define L_MOTOR_A 10                    // must be PWM pin!
-#define L_MOTOR_B 11                    // must be PWM pin!
+#define R_MOTOR_A 10                    // must be PWM pin!
+#define R_MOTOR_B 11                    // must be PWM pin!
+#define L_MOTOR_A 5                     // must be PWM pin!
+#define L_MOTOR_B 6                    // must be PWM pin!
 
 #define LED0 12
 #define LED1 13
@@ -25,9 +25,9 @@
 //------------------------ Dimensions ---------------------------
 
 #define WHEEL_DIAMETER 80               // in mm
-#define WHEEL_DISTANCE 240              // in mm
+#define WHEEL_DISTANCE 257              // in mm
 
-#define ENC_STEPS_PER_ROTATION 64*70   // PPR * gearbox ratio
+#define ENC_STEPS_PER_ROTATION 4480   // PPR * gearbox ratio, 64*70
 
 // ------------------------- Speeds -----------------------------
 

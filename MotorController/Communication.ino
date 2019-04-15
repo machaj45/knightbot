@@ -15,7 +15,7 @@
 // 7 - TURN_WHEEL_B (signed angle)    angle in degrees!
 // 8 - SET_SPEED (speed)              mm/s
 // 9 - SET_ACC (acceleration)         mm/s*s
-//returns 1 if successfully added to queue, -1 otherwise
+//returns 1 if successfully added to queue, 0 otherwise
 // plus these:
 #define GET_POS 20   //returns two numbers: "xpos" "ypos"
 #define QUEUE_LEN 21   //returns number of commands waiting in queue
@@ -37,10 +37,10 @@ void initCom(){
     params[i] = 0;
   }
   Serial.setTimeout(1);
-  while(true){
+  while(false){
     Serial.print("M");
     delay(200);
-    if(Serial.available() && Serial.read() == "M"){
+    if(Serial.available() && Serial.read() == 'M'){
       flushSerial();
       break;
     }
@@ -57,7 +57,7 @@ void updateCom(){
       flushSerial();
       Serial.print(0);
     }else{
-      int param = Serial.parseInt();
+      int param = Serial.parseInt();    // maybe use parseFloat() for bigger distances?
       if(param == 0){
         flushSerial();
         Serial.print(0);
@@ -70,6 +70,7 @@ void updateCom(){
       }else{
         if(isImmediate(command) && param > 0){
           flushQueue();
+          nextCommand();
         }
         byte err = pushQueue(command, param);
         flushSerial();
