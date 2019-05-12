@@ -55,8 +55,8 @@ void updateMovement(){
 
   //check breaking distance for decelerating
   int actAvgSpeed = max(abs(actualRAvgSpeed), abs(actualLAvgSpeed));
-  long breakDist = mm2count(((long)actAvgSpeed*(long)actAvgSpeed)/(2*targetAcc));   //in counts
-  if((abs(targetRTacho - rightMotorTacho) <= breakDist)&&(abs(targetLTacho - leftMotorTacho) <= breakDist)){isAccelerating = false;}
+  long brakeDist = mm2count(((long)actAvgSpeed*(long)actAvgSpeed)/(long)(2*targetAcc));   //in counts
+  if((abs(targetRTacho - rightMotorTacho) <= brakeDist)&&(abs(targetLTacho - leftMotorTacho) <= brakeDist)){isAccelerating = false;}
 
   //update calculated velocity
   calculatedSpeed += (float)targetAcc * (float)((float)timeDelta/1000000) * (isAccelerating ? 1 : -1);
@@ -143,9 +143,11 @@ void forward(long dist){
   targetLTacho = leftMotorTacho + mm2count(dist);
 }
 
-void stopMotors(){
+void stopMotors(){    //TODO set target tacho as braking distance !!! -------------------------------------------------------------------------------------------------------------------------
   enableMotors(true);
   isAccelerating = false;
+  
+  
   moveState = STOP;
 }
 
@@ -163,7 +165,7 @@ void turnContra(int angle){
   enableMotors(true);
   isAccelerating = true;
   moveState = TURN_CONTRA;
-  long dist = abs((float)WHEEL_DISTANCE * (float)angle * 3.141592 / 360);
+  long dist = abs((float)WHEEL_DISTANCE * (float)angle * 3.141592 / (long)360);
   targetRTacho = rightMotorTacho + ((angle > 0 ? 1 : -1)*mm2count(dist));
   targetLTacho = leftMotorTacho + ((angle < 0 ? 1 : -1)*mm2count(dist));
   

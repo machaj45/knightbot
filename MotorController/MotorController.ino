@@ -45,6 +45,7 @@ void setup() {
 
 void loop() {
   long currTime = micros();
+  
   //updatePosEst();
   updateMovement();
   updateCom();
@@ -62,8 +63,8 @@ void loop() {
 //  Serial.println(leftMotorTacho);
 
 
-  int tLeft = (CYCLE_PERIOD*1000) - (micros() - currTime);
-  delayMicroseconds(tLeft);       // stabilizing regulation period
+  long tLeft = (CYCLE_PERIOD*1000) - (micros() - currTime);
+  delayMicroseconds(tLeft>0 ? tLeft : 0);       // stabilizing regulation period
 }
 
 
@@ -101,6 +102,6 @@ float count2mm(long count){
   return (float)(count/(float)ENC_STEPS_PER_ROTATION)*WHEEL_DIAMETER*PI;
 }
 
-long mm2count(int mm){    // TODO check if works properly
+long mm2count(int mm){
   return (float)((float)mm/((float)WHEEL_DIAMETER*PI))*(float)ENC_STEPS_PER_ROTATION;
 }

@@ -25,7 +25,7 @@
 //------------------------ Dimensions ---------------------------
 
 #define WHEEL_DIAMETER 80               // in mm
-#define WHEEL_DISTANCE 257              // in mm
+#define WHEEL_DISTANCE 260              // in mm
 
 #define ENC_STEPS_PER_ROTATION 4480   // PPR * gearbox ratio, 64*70
 

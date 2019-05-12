@@ -17,7 +17,7 @@
 // 9 - SET_ACC (acceleration)         mm/s*s
 //returns 1 if successfully added to queue, 0 otherwise
 // plus these:
-#define GET_POS 20   //returns two numbers: "xpos" "ypos"
+#define GET_POS 20   //returns three numbers: "xpos" "ypos" "theta"
 #define QUEUE_LEN 21   //returns number of commands waiting in queue
 //todo get tacho count ?
 
@@ -37,7 +37,7 @@ void initCom(){
     params[i] = 0;
   }
   Serial.setTimeout(1);
-  while(false){
+  while(false){           // just for debug, to be changed to true!!!
     Serial.print("M");
     delay(200);
     if(Serial.available() && Serial.read() == 'M'){
@@ -53,7 +53,7 @@ void updateCom(){
   //fetch data from serial to queue if ready
   if(Serial.available()){
     byte command = Serial.parseInt();
-    if(command == 0){
+    if(command == 0){                   //zero means parseInt() timeout
       flushSerial();
       Serial.print(0);
     }else{
