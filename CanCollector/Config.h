@@ -28,8 +28,10 @@
 
 #define PWM_INCREMENT 1
 
-#define MAG_SERVO_GRAB_DEG 0
-#define MAG_SERVO_RELEASE_DEG 255
+#define MAG_SERVO_GRAB_DEG 85
+#define MAG_SERVO_RELEASE_DEG 90
+
+#define ELEV_PUSH_TIME 500            // in ms
 
 #define SUN_ENC_TRES 512
 
