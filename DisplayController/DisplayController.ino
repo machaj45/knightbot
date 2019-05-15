@@ -1,81 +1,50 @@
 
 #include "Config.h"
+#include "U8glib.h"
 
-// Grafický LCD display 128x64
-// řadič ST7920
-// připojení knihovny U8glib
-#include "U8glib_Arduino-master/src/U8glib.h"
 
-// nastavení propojovacích pinů
-#define EN 13
-#define RW 12
-#define RS 11
-
-// inicializace OLED displeje z knihovny U8glib
-U8GLIB_ST7920_128X64_1X lcd(EN, RW, RS);
-
-// proměnná pro uchování času poslední obnovy displeje
-long int prepis = 0;
+U8GLIB_ST7920_128X64_1X u8g(EN,RW,RS);  // SPI Com: SCK = en = 18, MOSI = rw = 16, CS = di = 17
 
 void setup(void) {
   
   Serial.begin(SERIAL_BAUDRATE);
-  // nastavení bílé barvy pro výpis
-  if ( lcd.getMode() == U8G_MODE_R3G3B2 ) {
-    lcd.setColorIndex(255);
+  // flip screen, if required
+  // u8g.setRot180();
+  
+  // set SPI backup if required
+  //u8g.setHardwareBackup(u8g_backup_avr_spi);
+
+  // assign default color value
+  if ( u8g.getMode() == U8G_MODE_R3G3B2 ) {
+    u8g.setColorIndex(255);     // white
   }
-  // nastavení maximální intenzity svitu
-  else if ( lcd.getMode() == U8G_MODE_GRAY2BIT ) {
-    lcd.setColorIndex(3);
+  else if ( u8g.getMode() == U8G_MODE_GRAY2BIT ) {
+    u8g.setColorIndex(3);         // max intensity
   }
-  // nastavení viditelnosti pixelů
-  else if ( lcd.getMode() == U8G_MODE_BW ) {
-    lcd.setColorIndex(1);
+  else if ( u8g.getMode() == U8G_MODE_BW ) {
+    u8g.setColorIndex(1);         // pixel on
   }
-  // pro otočení displeje o 180 stupňů
-  // stačí odkomentovat řádek níže
-  // lcd.setRot180();
+  else if ( u8g.getMode() == U8G_MODE_HICOLOR ) {
+    u8g.setHiColorByRGB(255,255,255);
+  }
 }
 
 void loop(void) {
-  // porovnání uloženého a aktuálního času,
-  // při rozdílu větším než 100 ms se provede
-  // obnovení displeje, čas můžeme nastavit dle potřeby
-  if (millis()-prepis > 100) {
-    // následující skupina příkazů
-    // obnoví obsah OLED displeje
-    lcd.firstPage();
-    do {
-      // funkce vykresli vykreslí žádanou obsah
-      vykresli();
-    } while( lcd.nextPage() );
-    // uložení posledního času obnovení
-    prepis = millis();
-  }
+  // picture loop
+  u8g.firstPage();  
+  do {
+    draw();
+  } while( u8g.nextPage() );
   
-  // zde je místo pro další příkazy pro Arduino
-  
-  // volitelná pauza 10 ms pro demonstraci
-  // vykonání dalších příkazů
-  delay(10);
+  // rebuild the picture after some delay
+  //delay(50);
 }
-// funkce vykresli pro nastavení výpisu informací na OLED
-void vykresli(void) {
-  // nastavení písma, toto písmo umožní vypsat
-  // přibližně 15x4 znaků
-  lcd.setFont(u8g_font_unifont);
-  // nastavení pozice výpisu v pixelech
-  // souřadnice jsou ve tvaru x, y
-  // souřadnice 0, 0 je v levém horní rohu
-  // OLED displeje, maximum je 128, 64
-  lcd.setPrintPos(0, 10);
-  // výpis textu na zadanou souřadnici
-  lcd.print("Arduino navody");
-  lcd.setPrintPos(0, 25);
-  lcd.print("arduino-shop.cz");
-  lcd.setPrintPos(0, 40);
-  lcd.print("Cas od zapnuti:");
-  lcd.setPrintPos(40, 55);
-  lcd.print(millis()/1000);
-  lcd.print(" vterin");
+
+void draw(void) {
+  // graphic commands to redraw the complete screen should be placed here  
+  //u8g.setFont(u8g_font_unifont);
+  u8g.setFont(u8g_font_6x10);
+  //u8g.setFont(u8g_font_osb21);
+  u8g.drawStr( 10, 10, "(K)NightBot 0.1");
+  u8g.drawStr( 0, 60, "waiting for ROSmaster");
 }

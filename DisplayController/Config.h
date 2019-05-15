@@ -9,9 +9,9 @@
 //#define EN 13
 //#define RW 12
 //#define RS 11
-//#define EN 52
-//#define RW 50
-//#define RS 51
+#define EN 52
+#define RW 50
+#define RS 51
 
 
 // ---------------------- Communication -------------------------
