@@ -1,0 +1,26 @@
+name: simulation
+root: ./
+
+startup_window: takeoff
+pre_window: export UAV_NAME=uav1
+windows:
+  - roscore:
+      layout: even-vertical
+      panes:
+        - roscore
+  - openni:
+      layout: even-vertical
+      panes:
+        - waitForRos; roslaunch openni_launch openni.launch device_id:=#2
+  - calibration:
+      layout: even-vertical
+      panes:
+        - waitForRos; rosrun camera_calibration camreacalibrator.py image:=/camera/rgb/image_raw camera:=/camera/rgb -size 9x9 --square 0.014
+  - tracker:
+      layout: even-vertical
+      panes:
+        - sleep 9999; rosrun openni_tracker openni_tracker
+  - rviz:
+      layout: even-vertical
+      panes:
+        - sleep 9999; rosrun rviz rviz

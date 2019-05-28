@@ -1,5 +1,5 @@
 #!/bin/bash
-MY_PATH=~/kinect_workspace/src/openni_tracker/tmux_scripts
+MY_PATH=~/git/knightbot
 MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 # remove the old link
