@@ -1,0 +1,39 @@
+This file will guide you through installing rosserial-arduino onto ros workstation
+
+
+Part 1: Serial comunication with ros node(arduino)
+
+Instal rosserial:
+	sudo apt-get install ros-indigo-rosserial-arduino  #Replace indigo with the name of the release you're installing from
+	sudo apt-get install ros-indigo-rosserial          #Replace indigo with the name of the release you're installing from
+	
+After starting roscore, rosserial must be started
+	rosrun rosserial_python serial_node.py /dev/ttyUSB0   #Might use diferent serial port, but 0 is good nitial guess.	
+
+
+
+
+
+Part 2: Compiling arduino code on ros machine
+
+Install arduino ide from https://www.arduino.cc/en/Guide/Linux
+Install ros_lib for arduino:
+	cd Arduino/libraries   #this should be the default path
+	rm -rf ros_lib
+	rosrun rosserial_arduino make_libraries.py .
+This will make arduino libraries for standart msgs, services etc..., as well as any custom stuff inside ros workspace.
+Standart libraries can also be installed through Arduino IDE library manager. Search for "rosserial".
+
+
+
+
+
+
+
+
+
+
+
+
+
+

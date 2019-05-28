@@ -11,3 +11,4 @@ ln $MY_PATH/session.yml $MY_PATH/.tmuxinator.yml
 # start tmuxinator
 cd $MY_PATH
 tmuxinator
+cd $HOME

@@ -1,7 +1,7 @@
 name: simulation
 root: ./
 
-startup_window: takeoff
+startup_window: openni
 pre_window: export UAV_NAME=uav1
 windows:
   - roscore:
