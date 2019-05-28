@@ -1,0 +1,8 @@
+prefix=/home/knight/workspace/devel
+
+Name: librealsense
+Description: Description of librealsense
+Version: 1.12.0
+Cflags: -I/home/knight/workspace/src/librealsense-1.12.1/include
+Libs: -L/home/knight/workspace/devel/lib -lrealsense
+Requires: 
