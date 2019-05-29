@@ -6,19 +6,20 @@
 
 // ------------------------- Pinout -----------------------------
 
-#define SUN_ENC_PIN 0
-#define SUN_MOT_PIN1 0
-#define SUN_MOT_PIN2 0
-#define ROT_GEAR_START_PIN 0
-#define ROT_GEAR_END_PIN 0
-#define ROT_GEAR_MOT_PIN1 0
-#define ROT_GEAR_MOT_PIN2 0
-#define ELEVATOR_START_PIN 0
-#define ELEVATOR_END_PIN 0
-#define ELEVATOR_MOT_PIN1 0
-#define ELEVATOR_MOT_PIN2 0
-#define MAG_SERVO_PIN 0
-#define CAN_CHECK_PIN 0
+#define SUN_ENC_PIN A0
+#define SUN_MOT_PIN1 3		//PWM
+#define SUN_MOT_PIN2 5		//PWM
+#define ROT_GEAR_START_PIN 12
+#define ROT_GEAR_END_PIN 13
+#define ROT_GEAR_MOT_PIN1 6	//PWM
+#define ROT_GEAR_MOT_PIN2 11	//PWM
+#define ELEVATOR_ENC_PIN 10
+#define ELEVATOR_MOT_PIN1 8	//not PWM
+#define ELEVATOR_MOT_PIN2 9	//not PWM
+#define MAG_SERVO_PIN 7
+#define CAN_CHECK_PIN A1
+#define LED1 A2
+#define LED2 A3
 
 // ------------------------ Tresholds ---------------------------
 
@@ -37,4 +38,4 @@
 
 // ---------------------- Communication -------------------------
 
-#define SERIAL_BAUDRATE 115200
+#define SERIAL_BAUDRATE 9600

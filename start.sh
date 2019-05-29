@@ -1,5 +1,5 @@
 #!/bin/bash
-MY_PATH=~/workspace/src/ros_packages
+MY_PATH=~/git/knightbot
 MY_PATH=`( cd "$MY_PATH" && pwd )`
 
 # remove the old link
