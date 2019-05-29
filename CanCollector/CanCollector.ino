@@ -19,7 +19,7 @@ boolean readyToPop = false;
 
 //motor endstops:
 //rot-gear start, rot-gear end, elevator top, elevator bot, sun encoder
-boolean endstops[] = {false, false, false, false, false};
+boolean endstops[] = {false, false, false, false};
 boolean canPresent = false;
 
 void setup() {
@@ -27,8 +27,7 @@ void setup() {
   Serial.begin(SERIAL_BAUDRATE);
   pinMode(ROT_GEAR_START_PIN, INPUT_PULLUP);
   pinMode(ROT_GEAR_END_PIN, INPUT_PULLUP);
-  pinMode(ELEVATOR_START_PIN, INPUT_PULLUP);
-  pinMode(ELEVATOR_END_PIN, INPUT_PULLUP);
+  pinMode(ELEVATOR_ENDSTOP_PIN, INPUT_PULLUP);
   pinMode(CAN_CHECK_PIN, INPUT);
   magServo.attach(MAG_SERVO_PIN);
   pinMode(SUN_MOT_PIN1, OUTPUT);
@@ -37,6 +36,14 @@ void setup() {
   pinMode(ROT_GEAR_MOT_PIN2, OUTPUT);
   pinMode(ELEVATOR_MOT_PIN1, OUTPUT);
   pinMode(ELEVATOR_MOT_PIN2, OUTPUT);
+  delay(10);  //mandatory for correct function of millis()
+  magServo.write(MAG_SERVO_GRAB_DEG);
+
+  //pushElevator();
+  //rotateSun(false);
+  //rotateRotGear(false);
+  //rotateSun(false);
+  releaseCan();
 }
 
 void loop() {
@@ -44,14 +51,20 @@ void loop() {
   //updateCom();
   updateSensors();
   updateMotors();
+//  Serial.print(endstops[0]);
+//  Serial.print("  ");
+//  Serial.print(endstops[1]);
+//  Serial.print("  ");
+//  Serial.print(endstops[2]);
+//  Serial.print("  ");
+//  Serial.println(endstops[3]);
 }
 
 void updateSensors(){
   endstops[0] = digitalRead(ROT_GEAR_START_PIN) == LOW;
   endstops[1] = digitalRead(ROT_GEAR_END_PIN) == LOW;
-  endstops[2] = digitalRead(ELEVATOR_START_PIN) == LOW;
-  endstops[3] = digitalRead(ELEVATOR_END_PIN) == LOW;
-  endstops[4] = analogRead(SUN_ENC_PIN) > SUN_ENC_TRES;
+  endstops[2] = digitalRead(ELEVATOR_ENDSTOP_PIN) == LOW;
+  endstops[3] = analogRead(SUN_ENC_PIN) > SUN_ENC_TRES;
   canPresent = digitalRead(CAN_CHECK_PIN) == HIGH;
 }
 

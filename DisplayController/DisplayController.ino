@@ -39,8 +39,8 @@ void setup(void){
 
   pinMode(PWR_LED, OUTPUT);
 
-  lines[0] = "  (K)NightBot 0.1";
-  lines[3] = "waiting for ROSmaster";
+  lines[0] = "   (K)NightBot 0.1";
+  lines[3] = "  waiting for master";
   
   initCom();
 }
@@ -62,19 +62,22 @@ void loop(void) {
 
 void draw(void) {
   u8g.setFont(u8g_font_6x10);
+  char line[21];
   for(int i = 0; i < 5; i++){
-    char line[21];
     lines[i].toCharArray(line, lines[i].length()+1);
     u8g.drawStr( 1, (i*10) + 9, line);
   }
-  char line[21];
-  lines[5].toCharArray(line, lines[5].length()+1);
+
+  lines[5].substring(1).toCharArray(line, lines[5].length()+1);
   u8g.drawStr( 1, 62, line);
   
-  u8g.drawLine(1, 51, 127, 51);
-  u8g.drawLine(31, 51, 31, 63);
-  u8g.drawLine(63, 51, 63, 63);
-  u8g.drawLine(95, 51, 95, 63);
+  if(lines[5].charAt(0) == 'B'){
+    u8g.drawLine(1, 51, 127, 51);
+    u8g.drawLine(31, 51, 31, 63);
+    u8g.drawLine(63, 51, 63, 63);
+    u8g.drawLine(95, 51, 95, 63);
+  }
+
   update = false;
 }
 
