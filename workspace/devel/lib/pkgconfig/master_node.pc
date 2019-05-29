@@ -1,0 +1,8 @@
+prefix=/home/knight/workspace/devel
+
+Name: master_node
+Description: Description of master_node
+Version: 0.0.0
+Cflags: 
+Libs: -L/home/knight/workspace/devel/lib 
+Requires: 

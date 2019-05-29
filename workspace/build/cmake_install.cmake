@@ -116,6 +116,7 @@ endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
+  include("/home/knight/git/knightbot/workspace/build/master_node/cmake_install.cmake")
   include("/home/knight/git/knightbot/workspace/build/realsense/ddynamic_reconfigure/cmake_install.cmake")
   include("/home/knight/git/knightbot/workspace/build/find_object_2d/cmake_install.cmake")
   include("/home/knight/git/knightbot/workspace/build/orb_slam_2_ros/cmake_install.cmake")
