@@ -1,0 +1,12 @@
+
+"L0nejaka zprava!" - napise text na radek 0. Zprava konci vykricnikem
+L0-L5
+"L5Bbutt1 butt2 butt3 butt4! - vykresli tlacitka
+P0 - vypnout led v tlacitku
+P1 - zapnout led v tlacitku
+
+
+Display controller posila B0-B3 po zmacknuti tlacitka
+
+
+
