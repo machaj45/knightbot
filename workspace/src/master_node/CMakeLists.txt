@@ -6,8 +6,12 @@ roscpp
 rospy 
 std_msgs
 std_srvs
+message_generation
 )
 
+add_service_files(DIRECTORY srv FILES arduino_srv.srv)
+
+generate_messages(DEPENDENCIES std_msgs)
 
 catkin_package(
 )
