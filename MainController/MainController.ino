@@ -6,7 +6,7 @@
 void printDisplayInfo();
 void printState();
 void clearDisplay();
-
+void waitForInit();
 
 
 SDL_Arduino_INA3221 ina3221;
@@ -20,15 +20,18 @@ ros::Publisher chatter("chatter", &str_msg);  //this is probably important too
 char hello[20] = "Hello from Arduino!";
 char time[20];
 void setup() {
-
+  waitForInit()
   nh.initNode();       //init node
   nh.advertise(chatter);   //init topic in node
-  //Serial1.begin(SERIAL1_BAUDRATE);             //motor controller
-  //Serial2.begin(SERIAL2_BAUDRATE);             //picker
-  pinMode(16, INPUT);
-  pinMode(17, INPUT);
+  Serial1.begin(SERIAL1_BAUDRATE);             //motor controller
+  Serial1.setTimeout(5);
+  Serial2.begin(SERIAL2_BAUDRATE);             //picker
+  Serial2.setTimeout(5);
+  //pinMode(16, INPUT);
+  //pinMode(17, INPUT);
 
   Serial3.begin(SERIAL3_BAUDRATE);             //display
+  Serial3.setTimeout(5);
   ina3221.begin();
   clearDisplay();
 }
@@ -60,67 +63,86 @@ void loop()
 
 
 
-
-
-void printDisplayInfo(){
-   float battVoltage = ina3221.getBusVoltage_V(1);
-   float motorCurrent = ina3221.getCurrent_mA(2);
-   float PcCurrent = ina3221.getCurrent_mA(3);       
-   float systemCurrent = ina3221.getCurrent_mA(1);
-   
-   char foo0[5];
-   delay(display_render_delay);
+void waitForInit() {
+  bool devOK[] = {false, false, false};
+  clearDisplay();
+  DSerial.println("L0   (K)NightBot 0.1!");
+  while (true) {
+    if (!devOK[0]) {
+      if (MSerial.read() == 'M')
+        devOK[0] = true;
+      DSerial.println("L2      Motors OK      !");
+    }
+    if (!devOK[1]) {
+      if (MSerial.read() == 'C')
+        devOK[0] = true;
+      DSerial.println("L3   Can colector OK   !");
+    }
+    if (!devOK[2]) {
+      if (MSerial.read() == 'D')
+        devOK[2] = true;
+      DSerial.println("L4      Display OK     !");
+    }
+    if (devOK[0] && devOK[1] && devOK[2]) {
+      break;
+    }
+  }
+  delay(500);
   
-   DSerial.print("L0");
+  
+}
 
-   dtostrf(battVoltage, 4,2, foo0);
-   DSerial.print(foo0);
-   DSerial.print("V ");
-   dtostrf(motorCurrent, 3,0, foo0);
-   DSerial.print(foo0);
-   DSerial.print("/");
-   dtostrf(PcCurrent, 3,0, foo0);
-   DSerial.print(foo0);  
-   DSerial.print("/"); 
-   dtostrf(systemCurrent, 3,0, foo0);
-   DSerial.print(foo0);
-   DSerial.print(" mA");
-   DSerial.println('!');
-   delay(display_render_delay+500);
-   if(PcCurrent>50){
+
+
+
+
+void printDisplayInfo() {
+  float battVoltage = ina3221.getBusVoltage_V(1);
+  float motorCurrent = ina3221.getCurrent_mA(2);
+  float PcCurrent = ina3221.getCurrent_mA(3);
+  float systemCurrent = ina3221.getCurrent_mA(1);
+
+  char foo0[5];
+  delay(display_render_delay);
+
+  DSerial.print("L1");
+
+  dtostrf(battVoltage, 4, 2, foo0);
+  DSerial.print(foo0);
+  DSerial.print("V ");
+  dtostrf(motorCurrent, 3, 0, foo0);
+  DSerial.print(foo0);
+  DSerial.print("/");
+  dtostrf(PcCurrent, 3, 0, foo0);
+  DSerial.print(foo0);
+  DSerial.print("/");
+  dtostrf(systemCurrent, 3, 0, foo0);
+  DSerial.print(foo0);
+  DSerial.print(" mA");
+  DSerial.println('!');
+  delay(display_render_delay + 500);
+  if (PcCurrent > 50) {
     DSerial.println("P1");
-   }else{
+  } else {
     DSerial.println("P0");
-   }
-   
+  }
+
 
 }
 
 void clearDisplay() {
-  delay(display_render_delay);
-  DSerial.print("L0                     ");
-  DSerial.println('!');
+  for (int i = 0; i < 6; i++) {
     delay(display_render_delay);
-  DSerial.print("L1                     ");
-  DSerial.println('!');
-    delay(display_render_delay);
-  DSerial.print("L2                     ");
-  DSerial.println('!');
-    delay(display_render_delay);
-  DSerial.print("L3                     ");
-  DSerial.println('!');
-  DSerial.print("L4                     ");
-  DSerial.println('!');
-    delay(display_render_delay);
-  DSerial.print("L5                     ");
-  DSerial.println('!');
-    delay(display_render_delay);
-
+    DSerial.write('L');
+    DSerial.write(i);
+    DSerial.print("                     ");
+    DSerial.println('!');
+  }
 }
 
 void printState() {
   delay(display_render_delay);
-  DSerial.print("L1");
+  DSerial.print("L3");
   delay(1);
   if (nh.connected()) {
     DSerial.print("ROS connected");

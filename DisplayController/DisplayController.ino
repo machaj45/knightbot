@@ -39,8 +39,8 @@ void setup(void){
 
   pinMode(PWR_LED, OUTPUT);
 
-  lines[0] = "   (K)NightBot 0.1";
-  lines[3] = "  waiting for master";
+  //lines[0] = "   (K)NightBot 0.1";
+  //lines[3] = "  waiting for master";
   
   initCom();
 }

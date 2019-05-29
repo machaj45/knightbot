@@ -21,4 +21,9 @@
 #define SERIAL2_BAUDRATE 9600		//collector
 #define SERIAL3_BAUDRATE 9600		//display
 #define DSerial Serial3
+#define MSerial Serial1
+#define CSerial Serial2
 #define display_render_delay 300
+#define canCallSign 'C'
+#define displayCallSign 'D'
+#define motorCallSIgn 'M'
