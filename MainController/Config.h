@@ -21,4 +21,4 @@
 #define SERIAL2_BAUDRATE 9600		//collector
 #define SERIAL3_BAUDRATE 9600		//display
 #define DSerial Serial3
-#define display_render_delay 200
+#define display_render_delay 300

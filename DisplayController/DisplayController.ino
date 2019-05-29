@@ -1,7 +1,7 @@
 
 #include "Config.h"
 #include "U8glib.h"
-
+//#define SERIAL_BUFFER_SIZE 200
 
 U8GLIB_ST7920_128X64_1X u8g(EN,RW,RS);  // SPI Com: SCK = en = 18, MOSI = rw = 16, CS = di = 17
 
@@ -11,7 +11,7 @@ String lines[6];
 boolean update = true;
 
 void setup(void){
-  
+ 
   Serial.begin(SERIAL_BAUDRATE);
   // flip screen, if required
   // u8g.setRot180();
