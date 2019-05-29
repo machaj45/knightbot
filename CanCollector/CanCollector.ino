@@ -41,9 +41,10 @@ void setup() {
 
   //pushElevator();
   //rotateSun(false);
-  //rotateRotGear(false);
+  //rotateRotGear(true);
   //rotateSun(false);
-  releaseCan();
+  //releaseCan();
+  rotateElevator(false);
 }
 
 void loop() {

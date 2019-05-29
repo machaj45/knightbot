@@ -15,11 +15,11 @@ void updateMotors(){
     analogWrite(ROT_GEAR_MOT_PIN2, 0);
     isMoving[0] = false;
   }
-//  if(isMoving[1] && ((movDir[1] && endstops[2]) || (!movDir[1] && endstops[3]))){
-//    digitalWrite(ELEVATOR_MOT_PIN1, LOW);
-//    digitalWrite(ELEVATOR_MOT_PIN2, LOW);
-//    isMoving[1] = false;
-//  }
+  if(isMoving[1] && (millis()-elevMovStart > 1000) && endstops[2]){
+    digitalWrite(ELEVATOR_MOT_PIN1, LOW);
+    digitalWrite(ELEVATOR_MOT_PIN2, LOW);
+    isMoving[1] = false;
+  }
   if(isMoving[2] && (millis()-sunMovStart > 500) && endstops[3]){
     analogWrite(SUN_MOT_PIN1, 0);
     analogWrite(SUN_MOT_PIN2, 0);
@@ -33,6 +33,7 @@ void updateMotors(){
   }
 }
 
+//dir - true = clockwise
 void rotateRotGear(boolean dir){
   if((dir && !endstops[0])||(!dir && !endstops[1])){
     movDir[0] = dir;
@@ -42,16 +43,19 @@ void rotateRotGear(boolean dir){
   }
 }
 
+//dir - true = down
 void rotateElevator(boolean dir){
   //if((dir && !endstops[2])||(!dir && !endstops[3])){
   //TODO timing start run
     movDir[1] = dir;
     isMoving[1] = true;
+    elevMovStart = millis();
     digitalWrite(ELEVATOR_MOT_PIN1, dir?HIGH:LOW);
     digitalWrite(ELEVATOR_MOT_PIN2, dir?LOW:HIGH);
   //}
 }
 
+//dir - true = clockwise
 void rotateSun(boolean dir){
   movDir[2] = dir;
   isMoving[2] = true;
