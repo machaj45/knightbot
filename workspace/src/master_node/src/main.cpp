@@ -19,10 +19,10 @@
 
 //For services
 #include "std_msgs/String.h"
-#include "std_srvs/SetBool.h"
-#include "master_node/motors.h"
+//#include "std_srvs/SetBool.h"
+//#include "master_node/motors.h"
 
-ros::Publisher pub_cloud, test_pub;
+//ros::Publisher pub_cloud, test_pub;
 ros::ServiceClient client;
 
 /**
@@ -67,7 +67,7 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg)
 }
 
 //Information from btn, if it was released
-bool  btn1(std_srvs::SetBool::Request  &req, std_srvs::SetBool::Response &res)
+/*bool  btn1(std_srvs::SetBool::Request  &req, std_srvs::SetBool::Response &res)
 {
 res.success = true;
 res.message = "Button 1 was pressed";
@@ -83,7 +83,7 @@ res.success = true;
 res.message = "Robot was offended and go away";
 ROS_INFO("CMD=%d  VEL=%d ", req.cmd, req.param);
   return true;
-}
+}*/
 
 
 namespace master_node
@@ -95,10 +95,11 @@ public:
         ROS_INFO("-------Main nodelet ready!--------");
         // Initialize ROS
         ros::NodeHandle& nh = getPrivateNodeHandle();
+	ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
 
-	client = nh.serviceClient<master_node::motors>("i_am_fake_robot",true);
-	ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);		ros::ServiceServer server = nh.advertiseService("btn1", btn1);
-	ros::ServiceServer server2 = nh.advertiseService("i_am_fake_robot", fake);
+//	client = nh.serviceClient<master_node::motors>("i_am_fake_robot",true);
+//	ros::ServiceServer server = nh.advertiseService("btn1", btn1);
+//	ros::ServiceServer server2 = nh.advertiseService("i_am_fake_robot", fake);
 
 /*
  //Work but I do not subscribe pointcloud

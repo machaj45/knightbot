@@ -13,13 +13,13 @@ find_package(catkin REQUIRED COMPONENTS
 	message_generation
 )
 
-add_service_files(DIRECTORY srv FILES motors.srv buttons.srv arduino_srv.srv)
+#add_service_files(DIRECTORY srv FILES motors.srv buttons.srv arduino_srv.srv)
 
-generate_messages(DEPENDENCIES std_msgs)
+#generate_messages(DEPENDENCIES std_msgs)
 
 #generate_messages(
 #     DEPENDENCIES
-#     std_msgs
+	#     std_msgs
 #)
 
 catkin_package(
