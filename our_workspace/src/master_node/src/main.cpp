@@ -6,7 +6,33 @@
 #include "std_msgs/Int16MultiArray.h"
 #include "std_msgs/Int16.h"
 
+#include <sensor_msgs/PointCloud2.h>
+
+
+//restricting
+#include <pcl/filters/passthrough.h>
+#include <pcl/point_cloud.h>
+#include <pcl/point_types.h>
+
 ros::Publisher pub_motor;
+
+
+/**
+ *  restricting ground
+ * */
+void restrict_ground(pcl::PointCloud<pcl::PointXYZ>::Ptr cloudPtr){
+pcl::PointCloud<pcl::PointXYZ>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PassThrough<pcl::PointXYZ> pass;
+  pass.setInputCloud (cloudPtr);
+  //pass.setFilterFieldName ("y"); //chosing axe
+  //pass.setFilterLimits (-0.5, 1000.0); //sets limits for filtering
+
+  pass.setFilterFieldName ("z"); //chosing axe
+  pass.setFilterLimits (0, 1000.0); //sets limits for filtering
+  pass.filter (*tmp);
+  *cloudPtr=*tmp;
+}
+
 
 //Accepting information from motor encoders
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
@@ -41,6 +67,12 @@ ROS_INFO("Odometry right: [%d] mm.", odom_R->data);
 }
 
 
+void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg) {
+   
+
+}
+
+
 namespace master_node
 {
 class Main : public nodelet::Nodelet {
@@ -54,6 +86,7 @@ public:
 	ros::Subscriber sub2 = nh.subscribe("can_count", 1000, canCountCallback);
 	ros::Subscriber sub3 = nh.subscribe("odomL", 1000, odomLCallback);
 	ros::Subscriber sub4 = nh.subscribe("odomR", 1000, odomRCallback);
+	ros::Subscriber sub5 = nh.subscribe<sensor_msgs::PointCloud2>("/camera/depth/color/points", 1, pointCloudCallback);
 
 	pub_motor = nh.advertise<std_msgs::Int16MultiArray>("motor_control",1);
 

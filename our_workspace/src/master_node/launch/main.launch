@@ -8,8 +8,4 @@
 <node pkg="nodelet" type="nodelet" name="main_loader" args="load master_node/Main m" output="screen"/>
 </group>
 
-
-<node pkg="tf" type="static_transform_publisher" 
-name="realsense2uav_transform" args="0.04 0.2 -0.107 -0.52 0 0 
-child_frame target_frame 100" />
 </launch>
