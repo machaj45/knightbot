@@ -1,2 +1,2 @@
 eval `ssh-agent -s`
-shh-add /home/knightbot/.ssh/robot
+ssh-add /home/knight/.ssh/robot
