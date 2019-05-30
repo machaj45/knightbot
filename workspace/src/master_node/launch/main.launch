@@ -1,0 +1,10 @@
+<launch>
+<group ns="master_node">
+<!-- DEFINE NODELET MANAGER called m-->
+<node pkg="nodelet" type="nodelet" name="m" args="manager" output="screen"/>
+
+<!-- DEFINE NODELET called main_loader-->
+<!-- create node from package msg2pcl, node=main and name will be filter-->
+<node pkg="nodelet" type="nodelet" name="main_loader" args="load master_node/Main m" output="screen"/>
+</group>
+</launch>
