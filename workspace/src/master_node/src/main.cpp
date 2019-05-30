@@ -4,6 +4,7 @@
 
 #include "std_msgs/String.h"
 #include "std_msgs/Int16MultiArray.h"
+#include "std_msgs/Int16.h"
 
 ros::Publisher pub_motor;
 
@@ -23,7 +24,17 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg)
 	}
 }
 
+void canCountCallback(const std_msgs::Int16::ConstPtr& can_count){
+ROS_INFO("There is: [%d] cans.", can_count->data);
+}
 
+void odomLCallback(const std_msgs::Int16::ConstPtr& odom_L){
+ROS_INFO("Odometry left: [%d] mm.", odom_L->data);
+}
+
+void odomRCallback(const std_msgs::Int16::ConstPtr& odom_R){
+ROS_INFO("Odometry right: [%d] mm.", odom_R->data);
+}
 
 
 namespace master_node
@@ -35,7 +46,11 @@ public:
         ROS_INFO("-------Main nodelet ready!--------");
         // Initialize ROS
         ros::NodeHandle& nh = getPrivateNodeHandle();
-	ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
+	ros::Subscriber sub1 = nh.subscribe("chatter", 1000, chatterCallback);
+	ros::Subscriber sub2 = nh.subscribe("can_count", 1000, canCountCallback);
+	ros::Subscriber sub3 = nh.subscribe("odomL", 1000, odomLCallback);
+	ros::Subscriber sub4 = nh.subscribe("odomR", 1000, odomRCallback);
+
 	pub_motor = nh.advertise<std_msgs::Int16MultiArray>("motor_control",1);
 
 
