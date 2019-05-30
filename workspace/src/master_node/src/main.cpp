@@ -2,7 +2,9 @@
 #include <nodelet/nodelet.h>
 #include <pluginlib/class_list_macros.h>
 
+
 //For poincloud
+/*
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl/filters/voxel_grid.h>//voxel grid
 #include <pcl/filters/radius_outlier_removal.h>//radius filtering
@@ -13,6 +15,7 @@
 #include <pcl/PCLPointCloud2.h>
 #include <pcl/conversions.h>
 #include <pcl_ros/transforms.h>
+*/
 
 //For services
 #include "std_msgs/String.h"
@@ -25,6 +28,7 @@ ros::ServiceClient client;
 /**
  * Care about downsampling
  * */
+/*
 void downsampling(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, float leaf_size){
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZRGB>);
     pcl::VoxelGrid<pcl::PointXYZRGB> sor;
@@ -32,12 +36,13 @@ void downsampling(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, float leaf_si
     sor.setLeafSize (leaf_size, leaf_size, leaf_size); //seting downsampling parameters
     sor.filter (*tmp); //saving
     *cloudPtr=*tmp;
-}
+}*/
 
 /**
  *  r [m] - radius in which neighbours should be
  *  kNeigbours - how many neighbours should should point has at least
  * */
+/*
 void kN_filtering(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, double r, int kNeigbours){
     pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZRGB>);
     pcl::RadiusOutlierRemoval<pcl::PointXYZRGB> outrem;
@@ -49,11 +54,11 @@ void kN_filtering(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, double r, int
     outrem.filter (*tmp);
     *cloudPtr=*tmp;
 }
-
-void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg) {
+*/
+/*void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg) {
     test_pub.publish(cloud_msg);
 
-}
+}*/
 
 //Accepting information from motor encoders
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
