@@ -1,6 +1,6 @@
-SRV:
+MSGS:
 
-motors.srv - Controls motors
+Int16MultiArray motor_control [function, parametr]  - Controls motors
 	 1 - STOP (-1/1)   // bool immediate (flushes the queue and forces stop)
 	 2 - FLOAT (-1/1)  // bool immediate (flushes the queue and forces float
 	 3 - FORWARD (-1/1)   // bool dir
@@ -11,11 +11,9 @@ motors.srv - Controls motors
 	 8 - SET_SPEED (speed)              mm/s
 	 9 - SET_ACC (acceleration)         mm/s*s
 
-buttons.srv - Mega calls this service when button gets pressed
 
 
 
-MSGS:
 Mega publishes:
 	can_count Int16 - number of cans in storage, -1 if unknown
 	odomL Int16 - mm traveled or left wheel
