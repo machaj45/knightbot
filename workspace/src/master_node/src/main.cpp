@@ -22,7 +22,7 @@ void chatterCallback(const std_msgs::String::ConstPtr& msg)
         std_msgs::Int16MultiArray output2;
         output2.data.resize(2);
 
-		output2.data[0]=7;
+		output2.data[0]=5;
 		output2.data[1]=90;
 		pub_motor.publish(output2);
 	}
