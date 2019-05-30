@@ -8,6 +8,7 @@ void printDisplayInfo();
 void printState();
 void clearDisplay();
 void waitForInit();
+void initStuff();
 
 
 SDL_Arduino_INA3221 ina3221;
@@ -23,23 +24,37 @@ char time[20];
 
 void setup() {
   
-  nh.initNode();       //init node
-  nh.advertise(chatter);   //init topic in node
+  pinMode(LED1, OUTPUT);
+  pinMode(LED2, OUTPUT);
   MSerial.begin(SERIAL1_BAUDRATE);             //motor controller
   MSerial.setTimeout(5);
-  CSerial.begin(SERIAL2_BAUDRATE);             //picker
-  CSerial.setTimeout(5);
-  //pinMode(16, INPUT);
-  //pinMode(17, INPUT);
-
+  //CSerial.begin(SERIAL2_BAUDRATE);             //picker
+  //CSerial.setTimeout(5);
   DSerial.begin(SERIAL3_BAUDRATE);             //display
-  DSerial.setTimeout(5);
-  waitForInit();
+  DSerial.setTimeout(5);  
+  
+  pinMode(16, INPUT);
+  pinMode(17, INPUT);
+
+
+  //waitForInit();  
+  MSerial.print('M');
+  MSerial.print('C');
+  MSerial.print('D'); 
+  while(MSerial.peek()=='M'){MSerial.read();}
+  while(CSerial.peek()=='C'){CSerial.read();}
+  while(DSerial.peek()=='D'){DSerial.read();}  
+  
+  
   
   ina3221.begin();
   clearDisplay();
-
-  //waitForInit();
+  
+  
+  
+  
+   //init ROS
+  
   nh.initNode();       //init node
   nh.advertise(chatter);   //init topic in node
  
@@ -47,7 +62,7 @@ void setup() {
 
 
 void loop(){
-
+  initStuff();
   str_msg.data = hello;             //save data into prealocated msg
   chatter.publish( &str_msg );      //publish msg
   nh.spinOnce();                    //no clue
@@ -60,12 +75,36 @@ void loop(){
 
   printDisplayInfo();               //print battery voltage, motor, PC and system current onto display
   printState();
-
-  delay(1000);
+  digitalWrite(LED1, HIGH);
+  delay(500);
+  digitalWrite(LED1, LOW);
+  delay(500);
 }
 
 
+void initStuff(){
+ /* if(MSerial.peek()=='M'){
+    MSerial.write('M');
+    MSerial.read();  
+  }
+  if(DSerial.peek()=='D'){
+    DSerial.write('D');
+    DSerial.read();  
+  }
+  if(CSerial.peek()=='C'){
+    CSerial.write('C');
+    CSerial.read();  
+  }   */
+  DSerial.write('D');
+  MSerial.write('M');
+}
+
 void waitForInit() {
+  
+  
+  MSerial.print('M');
+  CSerial.print('C');
+  DSerial.print('D'); 
   bool devOK[] = {false, false, false};
   //clearDisplay();
   DSerial.println("L0   (K)NightBot 0.1");
@@ -75,22 +114,19 @@ void waitForInit() {
   while (true) {          //TODO resend unit letters, e.g. M,C,U,D to acknowledge
     if (!devOK[0]) {
       if(MSerial.read() == 'M'){
-        devOK[0] = true;
-        MSerial.print('M');
+        devOK[0] = true;        
         DSerial.println("L2  Motors          OK");
       }
     }
     if (!devOK[1]) {
       if (CSerial.read() == 'C'){   //must be added U option - cube collector
         devOK[1] = true;
-        MSerial.print('C');
         DSerial.println("L3  Collector    OK");
       }
     }
     if (!devOK[2]) {
       if (MSerial.read() == 'D'){   // well, cant print anything on display befor its initialisation
         devOK[2] = true;
-        MSerial.print('D');
         DSerial.println("L4  Display         OK");
       }
     }
@@ -142,10 +178,8 @@ void printDisplayInfo() {
 void clearDisplay() {
   for (int i = 0; i < 6; i++) {
     delay(display_render_delay);
-    DSerial.write('L');
-    DSerial.write(i);
-    DSerial.print("                     ");
-    DSerial.println();
+    DSerial.print('L');
+    DSerial.println(i);
   }
 }
 
@@ -154,10 +188,11 @@ void printState() {
   DSerial.print("L3");
   delay(1);
   if (nh.connected()) {
-    DSerial.print("ROS connected");
+    DSerial.print("ROS connected ");
   } else {
-    DSerial.print("   Waiting for ROS");
+    DSerial.print("Waiting for ROS ");
   }
+  DSerial.print(millis());
   DSerial.println();
 
 }
