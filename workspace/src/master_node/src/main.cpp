@@ -1,7 +1,7 @@
 #include "ros/ros.h"
 #include "std_msgs/String.h"
 #include "std_srvs/SetBool.h"
-#include "master_node/arduino_srv.h"
+#include "master_node/motors.h"
 
 
 ros::ServiceClient client;
@@ -45,7 +45,7 @@ ROS_INFO("Move robot, move!");
   return true;
 }
 
-bool fake(master_node::arduino_srv::Request  &req, master_node::arduino_srv::Response &res)
+bool fake(master_node::motors::Request  &req, master_node::motors::Response &res)
 {
 
 res.success = true;
@@ -59,7 +59,7 @@ int main(int argc, char **argv)
 {
 ros::init(argc, argv, "master_robot_node");
 ros::NodeHandle n;
-client = n.serviceClient<master_node::arduino_srv>("i_am_fake_robot",true);
+client = n.serviceClient<master_node::motors>("i_am_fake_robot",true);
 
 ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
 ros::ServiceServer server = n.advertiseService("btn1", btn1);

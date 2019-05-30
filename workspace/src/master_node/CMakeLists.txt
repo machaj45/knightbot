@@ -9,7 +9,7 @@ std_srvs
 message_generation
 )
 
-add_service_files(DIRECTORY srv FILES arduino_srv.srv)
+add_service_files(DIRECTORY srv FILES motors.srv buttons.srv arduino_srv.srv)
 
 generate_messages(DEPENDENCIES std_msgs)
 
@@ -21,5 +21,5 @@ include ${catkin_INCLUDE_DIRS}
 )
 
 
-add_executable(main src/main.cpp)
-target_link_libraries(main ${catkin_LIBRARIES})
+#add_executable(main src/main.cpp)
+#target_link_libraries(main ${catkin_LIBRARIES})

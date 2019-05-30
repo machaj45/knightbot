@@ -4,3 +4,5 @@
 *.hex
 *.d
 MainController/build*
+workspace/devel/*
+workspace/build*

@@ -1,2 +1,0 @@
-find_object_2d:master_node:orb_slam_2_ros:realsense/ddynamic_reconfigure:realsense/realsense2_camera
--DCATKIN_DEVEL_PREFIX=/home/knight/workspace/devel -DCMAKE_INSTALL_PREFIX=/home/knight/workspace/install -G Unix Makefiles
