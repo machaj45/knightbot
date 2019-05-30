@@ -12,15 +12,19 @@ ros::Publisher pub_motor;
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
   	ROS_INFO("I heard: [%s]", msg->data.c_str());
-	std_msgs::Int16MultiArray output;
-	output.data.resize(2);
 	for(int i = 0; i<4; i++){
-		output.data[0]=4;
-		output.data[1]=100;
-		pub_motor.publish(output);
-		output.data[0]=7;
-		output.data[1]=90;
-		pub_motor.publish(output);
+        std_msgs::Int16MultiArray output1;
+        output1.data.resize(2);
+
+		output1.data[0]=4;
+		output1.data[1]=100;
+		pub_motor.publish(output1);
+        std_msgs::Int16MultiArray output2;
+        output2.data.resize(2);
+
+		output2.data[0]=7;
+		output2.data[1]=90;
+		pub_motor.publish(output2);
 	}
 }
 
