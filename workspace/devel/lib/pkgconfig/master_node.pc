@@ -1,8 +1,8 @@
-prefix=/home/knight/workspace/devel
+prefix=/home.nfs/novotal8/git/knightbot/workspace/devel
 
 Name: master_node
 Description: Description of master_node
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/knight/workspace/devel/lib 
-Requires: 
+Version: 0.1.0
+Cflags: -I/home.nfs/novotal8/git/knightbot/workspace/devel/include
+Libs: -L/home.nfs/novotal8/git/knightbot/workspace/devel/lib -lnodelet_plugins
+Requires: nodelet

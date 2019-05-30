@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/knight/workspace/src
+CMAKE_SOURCE_DIR = /home.nfs/novotal8/git/knightbot/workspace/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/knight/git/knightbot/workspace/build
+CMAKE_BINARY_DIR = /home.nfs/novotal8/git/knightbot/workspace/build
 
 # Utility rule file for std_srvs_generate_messages_py.
 
@@ -63,10 +63,10 @@ master_node/CMakeFiles/std_srvs_generate_messages_py.dir/build: std_srvs_generat
 .PHONY : master_node/CMakeFiles/std_srvs_generate_messages_py.dir/build
 
 master_node/CMakeFiles/std_srvs_generate_messages_py.dir/clean:
-	cd /home/knight/git/knightbot/workspace/build/master_node && $(CMAKE_COMMAND) -P CMakeFiles/std_srvs_generate_messages_py.dir/cmake_clean.cmake
+	cd /home.nfs/novotal8/git/knightbot/workspace/build/master_node && $(CMAKE_COMMAND) -P CMakeFiles/std_srvs_generate_messages_py.dir/cmake_clean.cmake
 .PHONY : master_node/CMakeFiles/std_srvs_generate_messages_py.dir/clean
 
 master_node/CMakeFiles/std_srvs_generate_messages_py.dir/depend:
-	cd /home/knight/git/knightbot/workspace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/knight/workspace/src /home/knight/workspace/src/master_node /home/knight/git/knightbot/workspace/build /home/knight/git/knightbot/workspace/build/master_node /home/knight/git/knightbot/workspace/build/master_node/CMakeFiles/std_srvs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home.nfs/novotal8/git/knightbot/workspace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home.nfs/novotal8/git/knightbot/workspace/src /home.nfs/novotal8/git/knightbot/workspace/src/master_node /home.nfs/novotal8/git/knightbot/workspace/build /home.nfs/novotal8/git/knightbot/workspace/build/master_node /home.nfs/novotal8/git/knightbot/workspace/build/master_node/CMakeFiles/std_srvs_generate_messages_py.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : master_node/CMakeFiles/std_srvs_generate_messages_py.dir/depend
 

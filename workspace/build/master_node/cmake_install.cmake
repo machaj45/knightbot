@@ -1,8 +1,8 @@
-# Install script for directory: /home/knight/workspace/src/master_node
+# Install script for directory: /home.nfs/novotal8/git/knightbot/workspace/src/master_node
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/knight/workspace/install")
+  set(CMAKE_INSTALL_PREFIX "/home.nfs/novotal8/git/knightbot/workspace/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "Release")
+    set(CMAKE_INSTALL_CONFIG_NAME "")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -33,17 +33,53 @@ if(NOT DEFINED CMAKE_INSTALL_SO_NO_EXE)
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home/knight/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_node.pc")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node/srv" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/src/master_node/srv/motors.srv")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node/cmake" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_node-msg-paths.cmake")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include" TYPE DIRECTORY FILES "/home.nfs/novotal8/git/knightbot/workspace/devel/include/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/roseus/ros" TYPE DIRECTORY FILES "/home.nfs/novotal8/git/knightbot/workspace/devel/share/roseus/ros/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/common-lisp/ros" TYPE DIRECTORY FILES "/home.nfs/novotal8/git/knightbot/workspace/devel/share/common-lisp/ros/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/gennodejs/ros" TYPE DIRECTORY FILES "/home.nfs/novotal8/git/knightbot/workspace/devel/share/gennodejs/ros/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  execute_process(COMMAND "/usr/bin/python" -m compileall "/home.nfs/novotal8/git/knightbot/workspace/devel/lib/python2.7/dist-packages/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/python2.7/dist-packages" TYPE DIRECTORY FILES "/home.nfs/novotal8/git/knightbot/workspace/devel/lib/python2.7/dist-packages/master_node")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/lib/pkgconfig" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_node.pc")
+endif()
+
+if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node/cmake" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_node-msg-extras.cmake")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node/cmake" TYPE FILE FILES
-    "/home/knight/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_nodeConfig.cmake"
-    "/home/knight/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_nodeConfig-version.cmake"
+    "/home.nfs/novotal8/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_nodeConfig.cmake"
+    "/home.nfs/novotal8/git/knightbot/workspace/build/master_node/catkin_generated/installspace/master_nodeConfig-version.cmake"
     )
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
-  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node" TYPE FILE FILES "/home/knight/workspace/src/master_node/package.xml")
+  file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/share/master_node" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/src/master_node/package.xml")
 endif()
 

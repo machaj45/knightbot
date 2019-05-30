@@ -1,2 +1,2 @@
 - setup-file:
-    local-name: /home/knight/workspace/install/setup.sh
+    local-name: /home.nfs/novotal8/git/knightbot/workspace/install/setup.sh

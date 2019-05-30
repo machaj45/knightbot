@@ -1,8 +1,8 @@
-# Install script for directory: /home/knight/workspace/src
+# Install script for directory: /home.nfs/novotal8/git/knightbot/workspace/src
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
-  set(CMAKE_INSTALL_PREFIX "/home/knight/workspace/install")
+  set(CMAKE_INSTALL_PREFIX "/home.nfs/novotal8/git/knightbot/workspace/install")
 endif()
 string(REGEX REPLACE "/$" "" CMAKE_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}")
 
@@ -12,7 +12,7 @@ if(NOT DEFINED CMAKE_INSTALL_CONFIG_NAME)
     string(REGEX REPLACE "^[^A-Za-z0-9_]+" ""
            CMAKE_INSTALL_CONFIG_NAME "${BUILD_TYPE}")
   else()
-    set(CMAKE_INSTALL_CONFIG_NAME "Release")
+    set(CMAKE_INSTALL_CONFIG_NAME "")
   endif()
   message(STATUS "Install configuration: \"${CMAKE_INSTALL_CONFIG_NAME}\"")
 endif()
@@ -44,83 +44,80 @@ endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/_setup_util.py")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/_setup_util.py")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE PROGRAM FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/_setup_util.py")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE PROGRAM FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/_setup_util.py")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/env.sh")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/env.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE PROGRAM FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/env.sh")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE PROGRAM FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/env.sh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/setup.bash")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/setup.bash")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE FILE FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/setup.bash")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/setup.bash")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/setup.sh")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/setup.sh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE FILE FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/setup.sh")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/setup.sh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/setup.zsh")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/setup.zsh")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE FILE FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/setup.zsh")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/setup.zsh")
 endif()
 
 if(NOT CMAKE_INSTALL_COMPONENT OR "${CMAKE_INSTALL_COMPONENT}" STREQUAL "Unspecified")
   list(APPEND CMAKE_ABSOLUTE_DESTINATION_FILES
-   "/home/knight/workspace/install/.rosinstall")
+   "/home.nfs/novotal8/git/knightbot/workspace/install/.rosinstall")
   if(CMAKE_WARN_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(WARNING "ABSOLUTE path INSTALL DESTINATION : ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
   if(CMAKE_ERROR_ON_ABSOLUTE_INSTALL_DESTINATION)
     message(FATAL_ERROR "ABSOLUTE path INSTALL DESTINATION forbidden (by caller): ${CMAKE_ABSOLUTE_DESTINATION_FILES}")
   endif()
-file(INSTALL DESTINATION "/home/knight/workspace/install" TYPE FILE FILES "/home/knight/git/knightbot/workspace/build/catkin_generated/installspace/.rosinstall")
+file(INSTALL DESTINATION "/home.nfs/novotal8/git/knightbot/workspace/install" TYPE FILE FILES "/home.nfs/novotal8/git/knightbot/workspace/build/catkin_generated/installspace/.rosinstall")
 endif()
 
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
-  include("/home/knight/git/knightbot/workspace/build/master_node/cmake_install.cmake")
-  include("/home/knight/git/knightbot/workspace/build/realsense/ddynamic_reconfigure/cmake_install.cmake")
-  include("/home/knight/git/knightbot/workspace/build/find_object_2d/cmake_install.cmake")
-  include("/home/knight/git/knightbot/workspace/build/orb_slam_2_ros/cmake_install.cmake")
-  include("/home/knight/git/knightbot/workspace/build/realsense/realsense2_camera/cmake_install.cmake")
+  include("/home.nfs/novotal8/git/knightbot/workspace/build/gtest/cmake_install.cmake")
+  include("/home.nfs/novotal8/git/knightbot/workspace/build/master_node/cmake_install.cmake")
 
 endif()
 
@@ -132,5 +129,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/home/knight/git/knightbot/workspace/build/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/home.nfs/novotal8/git/knightbot/workspace/build/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

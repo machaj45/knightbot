@@ -43,10 +43,10 @@ RM = /usr/bin/cmake -E remove -f
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = /home/knight/workspace/src
+CMAKE_SOURCE_DIR = /home.nfs/novotal8/git/knightbot/workspace/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/knight/git/knightbot/workspace/build
+CMAKE_BINARY_DIR = /home.nfs/novotal8/git/knightbot/workspace/build
 
 # Utility rule file for std_msgs_generate_messages_cpp.
 
@@ -63,10 +63,10 @@ master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/build: std_msgs_genera
 .PHONY : master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/build
 
 master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean:
-	cd /home/knight/git/knightbot/workspace/build/master_node && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_cpp.dir/cmake_clean.cmake
+	cd /home.nfs/novotal8/git/knightbot/workspace/build/master_node && $(CMAKE_COMMAND) -P CMakeFiles/std_msgs_generate_messages_cpp.dir/cmake_clean.cmake
 .PHONY : master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/clean
 
 master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend:
-	cd /home/knight/git/knightbot/workspace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/knight/workspace/src /home/knight/workspace/src/master_node /home/knight/git/knightbot/workspace/build /home/knight/git/knightbot/workspace/build/master_node /home/knight/git/knightbot/workspace/build/master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home.nfs/novotal8/git/knightbot/workspace/build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home.nfs/novotal8/git/knightbot/workspace/src /home.nfs/novotal8/git/knightbot/workspace/src/master_node /home.nfs/novotal8/git/knightbot/workspace/build /home.nfs/novotal8/git/knightbot/workspace/build/master_node /home.nfs/novotal8/git/knightbot/workspace/build/master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : master_node/CMakeFiles/std_msgs_generate_messages_cpp.dir/depend
 
