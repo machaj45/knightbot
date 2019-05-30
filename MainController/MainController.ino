@@ -1,5 +1,7 @@
 #include <ros.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Int16.h>
+#include <std_msgs/Int16MultiArray.h>
 #include "Config.h"
 #include <SDL_Arduino_INA3221.h>
 #include "lib.h"
@@ -9,6 +11,7 @@ void printState();
 void clearDisplay();
 void waitForInit();
 void initStuff();
+int retrieveCanCount();
 
 
 SDL_Arduino_INA3221 ina3221;
@@ -16,9 +19,39 @@ SDL_Arduino_INA3221 ina3221;
 
 ros::NodeHandle  nh;    //creates handle for node
 
+//----------------Chatter message----------------//
 std_msgs::String str_msg;   //Create message to be send. Static alocation for safety.
 ros::Publisher chatter("chatter", &str_msg);  //this is probably important too
 
+//----------------CanCount message---------------//
+std_msgs::Int16 cans;   //Create message to be send. Static alocation for safety.
+ros::Publisher CanCount("CanCount", &cans);  //this is probably important too
+
+//----------------Motor controller msg----------//
+void enginesCb( const std_msgs::Int16MultiArray& engine_msg){
+   int command = engine_msg.data[0];
+   int parameter = engine_msg.data[1];
+   MSerial.print(command);
+   MSerial.print(" ");
+   MSerial.println(parameter);
+   
+   DSerial.print("L2 ");
+   DSerial.print(command);
+   DSerial.print(" ");
+   DSerial.println(parameter);
+   } 
+ros::Subscriber<std_msgs::Int16MultiArray> motorSubscriber("motor_control", &enginesCb );
+                         
+/*void servo_cb(td_msgs::UInt16& cmd_msg){
+     servo.write(cmd_msg.data); //set servo angle, should be from 0-180  
+     digitalWrite(13, HIGH-digitalRead(13));  //toggle led  
+}                        */
+   
+   
+//ros::Subscriber<std_msgs::UInt16> sub("servo", servo_cb);
+
+
+                         
 char hello[20] = "Hello from Arduino!";
 char time[20];
 
@@ -57,6 +90,9 @@ void setup() {
   
   nh.initNode();       //init node
   nh.advertise(chatter);   //init topic in node
+  nh.advertise(CanCount);
+  nh.subscribe(motorSubscriber);
+ // nh.subscribe(sub);
  
 }
 
@@ -65,14 +101,20 @@ void loop(){
   initStuff();
   str_msg.data = hello;             //save data into prealocated msg
   chatter.publish( &str_msg );      //publish msg
-  nh.spinOnce();                    //no clue
 
   String foo = String(millis());    //save time to string
   foo.toCharArray(time, 20);        //coppy string into char array
   str_msg.data = time;              //save data into prealocated msg
   chatter.publish( &str_msg );      //publish msg
+ 
+  cans.data=retrieveCanCount();
+  CanCount.publish( &cans );
+  DSerial.print("L4Cans in storage ");
+  DSerial.println(cans.data);
+ 
+ 
+ 
   nh.spinOnce();
-
   printDisplayInfo();               //print battery voltage, motor, PC and system current onto display
   printState();
   digitalWrite(LED1, HIGH);
@@ -81,6 +123,15 @@ void loop(){
   delay(500);
 }
 
+int retrieveCanCount(){
+    CSerial.println("C");
+    delay(10);
+    if(CSerial.read()=='C'){
+      return CSerial.readString().toInt();
+    } else {
+      return -1;
+    }
+}
 
 void initStuff(){
  /* if(MSerial.peek()=='M'){
@@ -97,6 +148,7 @@ void initStuff(){
   }   */
   DSerial.write('D');
   MSerial.write('M');
+  
 }
 
 void waitForInit() {
@@ -149,7 +201,7 @@ void printDisplayInfo() {
 
   char foo0[5];
   delay(display_render_delay);
-
+  DSerial.print("");
   DSerial.print("L1");
 
   dtostrf(battVoltage, 4, 2, foo0);
@@ -185,6 +237,7 @@ void clearDisplay() {
 
 void printState() {
   delay(display_render_delay);
+  DSerial.println("L0   (K)NightBot 0.1");
   DSerial.print("L3");
   delay(1);
   if (nh.connected()) {
