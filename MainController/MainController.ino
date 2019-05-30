@@ -40,7 +40,7 @@ void enginesCb( const std_msgs::Int16MultiArray& engine_msg){
    DSerial.print(" ");
    DSerial.println(parameter);
    } 
-ros::Subscriber<std_msgs::Int16MultiArray> motorSubscriber("motor_control", &enginesCb );
+ros::Subscriber<std_msgs::Int16MultiArray> motorSubscriber("/master_node/main_loader/motor_control", &enginesCb );
                          
 /*void servo_cb(td_msgs::UInt16& cmd_msg){
      servo.write(cmd_msg.data); //set servo angle, should be from 0-180  

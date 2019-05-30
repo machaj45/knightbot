@@ -1,0 +1,1 @@
+/home/knight/knightbot/our_workspace/devel/.private/master_node/share/master_node/cmake/master_nodeConfig-version.cmake

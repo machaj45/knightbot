@@ -1,0 +1,8 @@
+Symlinking /home/knight/knightbot/our_workspace/devel/./_setup_util.py
+Symlinking /home/knight/knightbot/our_workspace/devel/./setup.zsh
+Symlinking /home/knight/knightbot/our_workspace/devel/./setup.bash
+Symlinking /home/knight/knightbot/our_workspace/devel/./env.sh
+Symlinking /home/knight/knightbot/our_workspace/devel/./setup.sh
+Symlinking /home/knight/knightbot/our_workspace/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig-version.cmake
+Symlinking /home/knight/knightbot/our_workspace/devel/share/catkin_tools_prebuild/cmake/catkin_tools_prebuildConfig.cmake
+Symlinking /home/knight/knightbot/our_workspace/devel/lib/pkgconfig/catkin_tools_prebuild.pc
