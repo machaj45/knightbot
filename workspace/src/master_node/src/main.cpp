@@ -2,88 +2,39 @@
 #include <nodelet/nodelet.h>
 #include <pluginlib/class_list_macros.h>
 
-
-//For poincloud
-/*
-#include <sensor_msgs/PointCloud2.h>
-#include <pcl/filters/voxel_grid.h>//voxel grid
-#include <pcl/filters/radius_outlier_removal.h>//radius filtering
-#include <pcl_conversions/pcl_conversions.h>
-#include <pcl_ros/transforms.h>
-#include "pcl_ros/point_cloud.h"
-#include <pcl/point_types.h>
-#include <pcl/PCLPointCloud2.h>
-#include <pcl/conversions.h>
-#include <pcl_ros/transforms.h>
-*/
-
-//For services
 #include "std_msgs/String.h"
-//#include "std_srvs/SetBool.h"
-//#include "master_node/motors.h"
+#include "std_msgs/Int16MultiArray.h"
+#include "std_msgs/Int16.h"
 
-//ros::Publisher pub_cloud, test_pub;
-ros::ServiceClient client;
-
-/**
- * Care about downsampling
- * */
-/*
-void downsampling(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, float leaf_size){
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZRGB>);
-    pcl::VoxelGrid<pcl::PointXYZRGB> sor;
-    sor.setInputCloud (cloudPtr); //setting input cloud
-    sor.setLeafSize (leaf_size, leaf_size, leaf_size); //seting downsampling parameters
-    sor.filter (*tmp); //saving
-    *cloudPtr=*tmp;
-}*/
-
-/**
- *  r [m] - radius in which neighbours should be
- *  kNeigbours - how many neighbours should should point has at least
- * */
-/*
-void kN_filtering(pcl::PointCloud<pcl::PointXYZRGB>::Ptr cloudPtr, double r, int kNeigbours){
-    pcl::PointCloud<pcl::PointXYZRGB>::Ptr tmp(new pcl::PointCloud<pcl::PointXYZRGB>);
-    pcl::RadiusOutlierRemoval<pcl::PointXYZRGB> outrem;
-    // build the filter
-    outrem.setInputCloud(cloudPtr);
-    outrem.setRadiusSearch(r);
-    outrem.setMinNeighborsInRadius (kNeigbours);
-    // apply filter
-    outrem.filter (*tmp);
-    *cloudPtr=*tmp;
-}
-*/
-/*void pointCloudCallback(const sensor_msgs::PointCloud2ConstPtr& cloud_msg) {
-    test_pub.publish(cloud_msg);
-
-}*/
+ros::Publisher pub_motor;
 
 //Accepting information from motor encoders
 void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-  ROS_INFO("I heard: [%s]", msg->data.c_str());
+  	ROS_INFO("I heard: [%s]", msg->data.c_str());
+	std_msgs::Int16MultiArray output;
+	output.data.resize(2);
+	for(int i = 0; i<4; i++){
+		output.data[0]=4;
+		output.data[1]=100;
+		pub_motor.publish(output);
+		output.data[0]=7;
+		output.data[1]=90;
+		pub_motor.publish(output);
+	}
 }
 
-//Information from btn, if it was released
-/*bool  btn1(std_srvs::SetBool::Request  &req, std_srvs::SetBool::Response &res)
-{
-res.success = true;
-res.message = "Button 1 was pressed";
-ROS_INFO("request: x=%d", (int)req.data);
-  return true;
+void canCountCallback(const std_msgs::Int16::ConstPtr& can_count){
+ROS_INFO("There is: [%d] cans.", can_count->data);
 }
 
-//Simulating robot behavior
-bool fake(master_node::motors::Request  &req, master_node::motors::Response &res)
-{
+void odomLCallback(const std_msgs::Int16::ConstPtr& odom_L){
+ROS_INFO("Odometry left: [%d] mm.", odom_L->data);
+}
 
-res.success = true;
-res.message = "Robot was offended and go away";
-ROS_INFO("CMD=%d  VEL=%d ", req.cmd, req.param);
-  return true;
-}*/
+void odomRCallback(const std_msgs::Int16::ConstPtr& odom_R){
+ROS_INFO("Odometry right: [%d] mm.", odom_R->data);
+}
 
 
 namespace master_node
@@ -95,28 +46,21 @@ public:
         ROS_INFO("-------Main nodelet ready!--------");
         // Initialize ROS
         ros::NodeHandle& nh = getPrivateNodeHandle();
-	ros::Subscriber sub = nh.subscribe("chatter", 1000, chatterCallback);
+	ros::Subscriber sub1 = nh.subscribe("chatter", 1000, chatterCallback);
+	ros::Subscriber sub2 = nh.subscribe("can_count", 1000, canCountCallback);
+	ros::Subscriber sub3 = nh.subscribe("odomL", 1000, odomLCallback);
+	ros::Subscriber sub4 = nh.subscribe("odomR", 1000, odomRCallback);
 
-//	client = nh.serviceClient<master_node::motors>("i_am_fake_robot",true);
-//	ros::ServiceServer server = nh.advertiseService("btn1", btn1);
-//	ros::ServiceServer server2 = nh.advertiseService("i_am_fake_robot", fake);
-
-/*
- //Work but I do not subscribe pointcloud
-        ros::Subscriber sub_cloud = nh.subscribe<sensor_msgs::PointCloud2>("/camera/depth/color/points", 1, pointCloudCallback);
-        pub_cloud = nh.advertise<sensor_msgs::PointCloud2>("output_cloud", 1);
-        test_pub = nh.advertise<sensor_msgs::PointCloud2>("test_cloud", 1);
-*/
+	pub_motor = nh.advertise<std_msgs::Int16MultiArray>("motor_control",1);
 
 
         // Spin
         ros::spin();
-        
-        
-        /* ros::Rate loop_rate(1);
+                
+/*         ros::Rate loop_rate(1);
     while (ros::ok()) {
       loop_rate.sleep();
-    }*/
+}*/
     }
 };
 }
