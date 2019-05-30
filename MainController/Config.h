@@ -23,7 +23,7 @@
 #define DSerial Serial3
 #define MSerial Serial1
 #define CSerial Serial2
-#define display_render_delay 300
+#define display_render_delay 500
 #define canCallSign 'C'
 #define displayCallSign 'D'
 #define motorCallSIgn 'M'

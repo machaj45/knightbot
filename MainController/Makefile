@@ -1,7 +1,7 @@
 ARDMK_DIR = /home/knight/git/Arduino-Makefile
 AVRDUDE_CONF = /usr/share/arduino/hardware/tools/avrdude.conf
 AVRDUDE = /usr/bin/avrdude
-ARDUINO_LIBS = ros_lib SDL_Arduino_INA3221
+ARDUINO_LIBS = ros_lib SDL_Arduino_INA3221 Wire lib
 AVR_TOOLS_DIR=/usr
 ARDUION_DIR = /usr/share/arduino
 ARDUION_PORT = /dev/ttyUSB*

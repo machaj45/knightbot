@@ -2,6 +2,7 @@
 #include <std_msgs/String.h>
 #include "Config.h"
 #include <SDL_Arduino_INA3221.h>
+#include "lib.h"
 
 void printDisplayInfo();
 void printState();
@@ -20,9 +21,6 @@ ros::Publisher chatter("chatter", &str_msg);  //this is probably important too
 char hello[20] = "Hello from Arduino!";
 char time[20];
 void setup() {
-  waitForInit()
-  nh.initNode();       //init node
-  nh.advertise(chatter);   //init topic in node
   Serial1.begin(SERIAL1_BAUDRATE);             //motor controller
   Serial1.setTimeout(5);
   Serial2.begin(SERIAL2_BAUDRATE);             //picker
@@ -34,6 +32,11 @@ void setup() {
   Serial3.setTimeout(5);
   ina3221.begin();
   clearDisplay();
+
+  //waitForInit();
+  nh.initNode();       //init node
+  nh.advertise(chatter);   //init topic in node
+ 
 }
 
 
@@ -67,21 +70,26 @@ void waitForInit() {
   bool devOK[] = {false, false, false};
   clearDisplay();
   DSerial.println("L0   (K)NightBot 0.1!");
+  delay(display_render_delay);
+  printDisplayInfo();
   while (true) {
     if (!devOK[0]) {
       if (MSerial.read() == 'M')
         devOK[0] = true;
       DSerial.println("L2      Motors OK      !");
+      delay(display_render_delay);
     }
     if (!devOK[1]) {
       if (MSerial.read() == 'C')
-        devOK[0] = true;
+        devOK[1] = true;
       DSerial.println("L3   Can colector OK   !");
+      delay(display_render_delay);
     }
     if (!devOK[2]) {
       if (MSerial.read() == 'D')
         devOK[2] = true;
       DSerial.println("L4      Display OK     !");
+      delay(display_render_delay);
     }
     if (devOK[0] && devOK[1] && devOK[2]) {
       break;
