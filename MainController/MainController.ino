@@ -19,27 +19,28 @@ ros::Publisher chatter("chatter", &str_msg);  //this is probably important too
 
 char hello[20] = "Hello from Arduino!";
 char time[20];
+
 void setup() {
-  waitForInit()
+  
   nh.initNode();       //init node
   nh.advertise(chatter);   //init topic in node
-  Serial1.begin(SERIAL1_BAUDRATE);             //motor controller
-  Serial1.setTimeout(5);
-  Serial2.begin(SERIAL2_BAUDRATE);             //picker
-  Serial2.setTimeout(5);
+  MSerial.begin(SERIAL1_BAUDRATE);             //motor controller
+  MSerial.setTimeout(5);
+  CSerial.begin(SERIAL2_BAUDRATE);             //picker
+  CSerial.setTimeout(5);
   //pinMode(16, INPUT);
   //pinMode(17, INPUT);
 
-  Serial3.begin(SERIAL3_BAUDRATE);             //display
-  Serial3.setTimeout(5);
+  DSerial.begin(SERIAL3_BAUDRATE);             //display
+  DSerial.setTimeout(5);
+  waitForInit();
+  
   ina3221.begin();
   clearDisplay();
 }
 
 
-void loop()
-{
-
+void loop(){
 
   str_msg.data = hello;             //save data into prealocated msg
   chatter.publish( &str_msg );      //publish msg
@@ -58,43 +59,45 @@ void loop()
 }
 
 
-
-
-
-
-
 void waitForInit() {
   bool devOK[] = {false, false, false};
-  clearDisplay();
-  DSerial.println("L0   (K)NightBot 0.1!");
-  while (true) {
+  //clearDisplay();
+  DSerial.println("L0   (K)NightBot 0.1");
+  DSerial.println("L2  Motors");
+  DSerial.println("L3  CanCollector");
+  DSerial.println("L4  Display");
+  while (true) {          //TODO resend unit letters, e.g. M,C,U,D to acknowledge
     if (!devOK[0]) {
-      if (MSerial.read() == 'M')
+      if(MSerial.read() == 'M'){
         devOK[0] = true;
-      DSerial.println("L2      Motors OK      !");
+        MSerial.print('M');
+        DSerial.println("L2  Motors          OK");
+      }
     }
     if (!devOK[1]) {
-      if (MSerial.read() == 'C')
-        devOK[0] = true;
-      DSerial.println("L3   Can colector OK   !");
+      if (CSerial.read() == 'C'){   //must be added U option - cube collector
+        devOK[1] = true;
+        MSerial.print('C');
+        DSerial.println("L3  Collector    OK");
+      }
     }
     if (!devOK[2]) {
-      if (MSerial.read() == 'D')
+      if (MSerial.read() == 'D'){   // well, cant print anything on display befor its initialisation
         devOK[2] = true;
-      DSerial.println("L4      Display OK     !");
+        MSerial.print('D');
+        DSerial.println("L4  Display         OK");
+      }
     }
     if (devOK[0] && devOK[1] && devOK[2]) {
       break;
     }
   }
+  while(MSerial.available()){MSerial.read();}
+  while(CSerial.available()){CSerial.read();}
+  while(DSerial.available()){DSerial.read();}
   delay(500);
   
-  
 }
-
-
-
-
 
 void printDisplayInfo() {
   float battVoltage = ina3221.getBusVoltage_V(1);
@@ -119,7 +122,7 @@ void printDisplayInfo() {
   dtostrf(systemCurrent, 3, 0, foo0);
   DSerial.print(foo0);
   DSerial.print(" mA");
-  DSerial.println('!');
+  DSerial.println();
   delay(display_render_delay + 500);
   if (PcCurrent > 50) {
     DSerial.println("P1");
@@ -136,7 +139,7 @@ void clearDisplay() {
     DSerial.write('L');
     DSerial.write(i);
     DSerial.print("                     ");
-    DSerial.println('!');
+    DSerial.println();
   }
 }
 
@@ -149,6 +152,6 @@ void printState() {
   } else {
     DSerial.print("   Waiting for ROS");
   }
-  DSerial.print('!');
+  DSerial.println();
 
 }
