@@ -12,6 +12,8 @@ Int16MultiArray motor_control [function, parametr]  - Controls motors
 	 9 - SET_ACC (acceleration)         mm/s*s
 
 
+Empty unload_cans - empty message, starts can unloading process
+        
 
 
 Mega publishes:
