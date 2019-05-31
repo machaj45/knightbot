@@ -11,14 +11,14 @@
 #define LED3 12
 #define LED4 13
 
-#OPTO0 A0
-#OPTO1 A1
-#OPTO2 A2
-#OPTO3 A3
-#OPTO4 A4
-#OPTO5 A5
-#OPTO6 A6
-#OPTO7 A7
+#define OPTO0 A0
+#define OPTO1 A1
+#define OPTO2 A2
+#define OPTO3 A3
+#define OPTO4 A4
+#define OPTO5 A5
+#define OPTO6 A6
+#define OPTO7 A7
 
 
 // ---------------------- Communication -------------------------
