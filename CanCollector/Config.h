@@ -14,6 +14,8 @@
 #define ROT_GEAR_MOT_PIN1 6	//PWM
 #define ROT_GEAR_MOT_PIN2 11	//PWM
 #define ELEVATOR_ENDSTOP_PIN 10
+#define ELEVATOR_END_PIN 2
+#define ELEVATOR_END_GND_PIN 4
 #define ELEVATOR_MOT_PIN1 8	//not PWM
 #define ELEVATOR_MOT_PIN2 9	//not PWM
 #define MAG_SERVO_PIN 7
@@ -34,7 +36,7 @@
 #define ELEV_PUSH_TIME 400            // in ms
 #define ELEV_PUSH_DIR true
 
-#define SUN_ENC_TRES 970
+#define SUN_ENC_TRES 980
 
 // ---------------------- Communication -------------------------
 

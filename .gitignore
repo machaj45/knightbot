@@ -3,6 +3,10 @@
 *.elf
 *.hex
 *.d
+*.log
 MainController/build*
 workspace/devel/*
 workspace/build*
+our_workspace/devel/*
+our_workspace/build/*
+our_workspace/logs/*

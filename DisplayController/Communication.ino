@@ -2,7 +2,7 @@
 
 void initCom(){
   Serial.setTimeout(5);
-  while(true){           // just for debug, to be changed to true!!!
+  while(false){           // just for debug, to be changed to true!!!
     Serial.print("D");
     delay(200);
     if(Serial.available() && Serial.read() == 'D'){

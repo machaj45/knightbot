@@ -1,0 +1,63 @@
+void waitForInit() {
+  
+  
+  MSerial.print('M');
+  CSerial.print('C');
+  DSerial.print('D'); 
+  bool devOK[] = {false, false, false};
+  //clearDisplay();
+  DSerial.println("L0   (K)NightBot 0.1");
+  DSerial.println("L2  Motors");
+  DSerial.println("L3  CanCollector");
+  DSerial.println("L4  Display");
+  while (true) {          //TODO resend unit letters, e.g. M,C,U,D to acknowledge
+    if (!devOK[0]) {
+      if(MSerial.read() == 'M'){
+        devOK[0] = true;        
+        DSerial.println("L2  Motors          OK");
+      }
+    }
+    if (!devOK[1]) {
+      if (CSerial.read() == 'C'){   //must be added U option - cube collector
+        devOK[1] = true;
+        DSerial.println("L3  Collector    OK");
+      }
+    }
+    if (!devOK[2]) {
+      if (MSerial.read() == 'D'){   // well, cant print anything on display befor its initialisation
+        devOK[2] = true;
+        DSerial.println("L4  Display         OK");
+      }
+    }
+    if (devOK[0] && devOK[1] && devOK[2]) {
+      break;
+    }
+  }
+  
+  
+  
+void initStuff(){
+ /* if(MSerial.peek()=='M'){
+    MSerial.write('M');
+    MSerial.read();  
+  }
+  if(DSerial.peek()=='D'){
+    DSerial.write('D');
+    DSerial.read();  
+  }
+  if(CSerial.peek()=='C'){
+    CSerial.write('C');
+    CSerial.read();  
+  }   */
+  DSerial.write('D');
+  //MSerial.write('M');
+  
+}
+
+
+  while(MSerial.available()){MSerial.read();}
+  while(CSerial.available()){CSerial.read();}
+  while(DSerial.available()){DSerial.read();}
+  delay(500);
+  
+}

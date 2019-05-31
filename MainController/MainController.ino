@@ -1,5 +1,8 @@
 #include <ros.h>
 #include <std_msgs/String.h>
+#include <std_msgs/Int16.h>
+#include <std_msgs/Int16MultiArray.h>
+#include <std_msgs/Empty.h>
 #include "Config.h"
 #include <SDL_Arduino_INA3221.h>
 #include "lib.h"
@@ -9,6 +12,8 @@ void printState();
 void clearDisplay();
 void waitForInit();
 void initStuff();
+int retrieveCanCount();
+void bb();
 
 
 SDL_Arduino_INA3221 ina3221;
@@ -16,9 +21,39 @@ SDL_Arduino_INA3221 ina3221;
 
 ros::NodeHandle  nh;    //creates handle for node
 
+//----------------Chatter message----------------//
 std_msgs::String str_msg;   //Create message to be send. Static alocation for safety.
 ros::Publisher chatter("chatter", &str_msg);  //this is probably important too
 
+//----------------CanCount message---------------//
+std_msgs::Int16 cans;   //Create message to be send. Static alocation for safety.
+ros::Publisher CanCount("CanCount", &cans);  //this is probably important too
+
+//----------------Motor controller msg----------//
+void enginesCb(std_msgs::Int16MultiArray& engine_msg){
+   int command = engine_msg.data[0];
+   int parameter = engine_msg.data[1];
+   delay(100);
+   MSerial.print(command);
+   MSerial.print(" ");
+   MSerial.println(parameter);
+   //delay(50);
+   DSerial.print("L2 ");
+   DSerial.print(command);
+   DSerial.print(" ");
+   DSerial.println(parameter);
+   } 
+ros::Subscriber<std_msgs::Int16MultiArray> motorSubscriber("/master_node/main_loader/motor_control", &enginesCb );
+
+//----------Start can unloading process--------//
+void unloadCb(std_msgs::Empty& empty_msg){
+   
+   
+   
+   
+   } 
+ros::Subscriber<std_msgs::Empty> unloadSubscriber("/master_node/main_loader/unload_cans", &unloadCb );
+                         
 char hello[20] = "Hello from Arduino!";
 char time[20];
 
@@ -31,24 +66,24 @@ void setup() {
   //CSerial.begin(SERIAL2_BAUDRATE);             //picker
   //CSerial.setTimeout(5);
   DSerial.begin(SERIAL3_BAUDRATE);             //display
-  DSerial.setTimeout(5);  
+  DSerial.setTimeout(1);  
   
   pinMode(16, INPUT);
   pinMode(17, INPUT);
 
 
   //waitForInit();  
-  MSerial.print('M');
-  MSerial.print('C');
-  MSerial.print('D'); 
+  //MSerial.print('M');
+  //MSerial.print('C');
+  //MSerial.print('D'); 
   while(MSerial.peek()=='M'){MSerial.read();}
   while(CSerial.peek()=='C'){CSerial.read();}
-  while(DSerial.peek()=='D'){DSerial.read();}  
+  //while(DSerial.peek()=='D'){DSerial.read();}  
   
   
   
   ina3221.begin();
-  clearDisplay();
+  //clearDisplay();
   
   
   
@@ -57,89 +92,104 @@ void setup() {
   
   nh.initNode();       //init node
   nh.advertise(chatter);   //init topic in node
+  nh.advertise(CanCount);
+  nh.subscribe(motorSubscriber);
+  nh.subscribe(unloadSubscriber);
+  
  
 }
+void moveEngines(int command, int parameter){
+   MSerial.print(command);
+   MSerial.print(" ");
+   MSerial.println(parameter);
+   //MSerial.println("4 100");
+   //delay(50);
+   DSerial.print("L2 ");
+   DSerial.print(command);
+   DSerial.print(" ");
+   DSerial.println(parameter);     
+   //DSerial.print("4 100 ");
+   DSerial.print(MSerial.peek());
+   DSerial.print(" | ");
+   DSerial.println((char)MSerial.read());
 
+
+
+
+}
 
 void loop(){
-  initStuff();
-  str_msg.data = hello;             //save data into prealocated msg
+  //initStuff();
+  /*str_msg.data = hello;           //save data into prealocated msg
   chatter.publish( &str_msg );      //publish msg
-  nh.spinOnce();                    //no clue
 
   String foo = String(millis());    //save time to string
   foo.toCharArray(time, 20);        //coppy string into char array
   str_msg.data = time;              //save data into prealocated msg
-  chatter.publish( &str_msg );      //publish msg
-  nh.spinOnce();
-
-  printDisplayInfo();               //print battery voltage, motor, PC and system current onto display
-  printState();
-  digitalWrite(LED1, HIGH);
-  delay(500);
-  digitalWrite(LED1, LOW);
-  delay(500);
-}
-
-
-void initStuff(){
- /* if(MSerial.peek()=='M'){
-    MSerial.write('M');
-    MSerial.read();  
-  }
-  if(DSerial.peek()=='D'){
-    DSerial.write('D');
-    DSerial.read();  
-  }
-  if(CSerial.peek()=='C'){
-    CSerial.write('C');
-    CSerial.read();  
-  }   */
-  DSerial.write('D');
-  MSerial.write('M');
-}
-
-void waitForInit() {
-  
-  
-  MSerial.print('M');
-  CSerial.print('C');
-  DSerial.print('D'); 
-  bool devOK[] = {false, false, false};
+  chatter.publish( &str_msg );      //publish msg              */
+ 
+  cans.data=retrieveCanCount();
+  CanCount.publish( &cans );
+  DSerial.print("L4Cans in storage ");
+  DSerial.println(retrieveCanCount());
+ 
+ 
+ 
   //clearDisplay();
-  DSerial.println("L0   (K)NightBot 0.1");
-  DSerial.println("L2  Motors");
-  DSerial.println("L3  CanCollector");
-  DSerial.println("L4  Display");
-  while (true) {          //TODO resend unit letters, e.g. M,C,U,D to acknowledge
-    if (!devOK[0]) {
-      if(MSerial.read() == 'M'){
-        devOK[0] = true;        
-        DSerial.println("L2  Motors          OK");
-      }
-    }
-    if (!devOK[1]) {
-      if (CSerial.read() == 'C'){   //must be added U option - cube collector
-        devOK[1] = true;
-        DSerial.println("L3  Collector    OK");
-      }
-    }
-    if (!devOK[2]) {
-      if (MSerial.read() == 'D'){   // well, cant print anything on display befor its initialisation
-        devOK[2] = true;
-        DSerial.println("L4  Display         OK");
-      }
-    }
-    if (devOK[0] && devOK[1] && devOK[2]) {
-      break;
-    }
-  }
-  while(MSerial.available()){MSerial.read();}
-  while(CSerial.available()){CSerial.read();}
-  while(DSerial.available()){DSerial.read();}
-  delay(500);
+  //DSerial.print("DDDDDDDDDDDDDDDDDDDDDDDDDDDd");
+  printDisplayInfo();               //print battery voltage, motor, PC and system current onto display
+  printState();                     //print ROS connection state and arduino time
+  //bb();     
+  digitalWrite(LED1, !digitalRead(LED1));  // toggle state
+  //DSerial.println("L5 STOP NECO NECO NECO");
+  nh.spinOnce();  
   
+  delay(5000);
+  moveEngines(4, 50);
+  delay(5000);
+  moveEngines(4, -50);
 }
+
+void bb(){
+  delay(display_render_delay);
+  
+  if(DSerial.peek()=='B'){
+    DSerial.read();
+    switch(DSerial.read()){
+      case '0':   //flush engines buffer
+        MSerial.println("1 1");
+        DSerial.println("L5B OOOO NECO NECO NECO");
+        break; 
+      case '1':
+        DSerial.println("L5B STOP OOOO NECO NECO");
+        break;
+      case '2':
+        DSerial.println("L5B STOP NECO OOOO NECO");
+        break;
+      case '3':
+        DSerial.println("L5B STOP NECO NECO OOOO");
+        break;
+        }
+    } else {
+    DSerial.println("L5B STOP NECO NECO NECO");
+  }
+
+
+
+}
+
+
+int retrieveCanCount(){
+    CSerial.println("C");
+    delay(10);
+    if(CSerial.read()=='C'){
+      return CSerial.readString().toInt();
+    } else {
+      return -1;
+    }
+}
+
+
 
 void printDisplayInfo() {
   float battVoltage = ina3221.getBusVoltage_V(1);
@@ -149,7 +199,7 @@ void printDisplayInfo() {
 
   char foo0[5];
   delay(display_render_delay);
-
+  DSerial.print("");
   DSerial.print("L1");
 
   dtostrf(battVoltage, 4, 2, foo0);
@@ -177,7 +227,7 @@ void printDisplayInfo() {
 
 void clearDisplay() {
   for (int i = 0; i < 6; i++) {
-    delay(display_render_delay);
+    delay(200);
     DSerial.print('L');
     DSerial.println(i);
   }
@@ -185,14 +235,16 @@ void clearDisplay() {
 
 void printState() {
   delay(display_render_delay);
+  DSerial.println("L0   (K)NightBot 0.1");
   DSerial.print("L3");
+  delay(display_render_delay);
   delay(1);
   if (nh.connected()) {
     DSerial.print("ROS connected ");
   } else {
-    DSerial.print("Waiting for ROS ");
+    DSerial.print("ROS waiting ");
   }
-  DSerial.print(millis());
+  DSerial.print((int)(millis()/1000));
   DSerial.println();
 
 }
