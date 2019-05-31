@@ -1,4 +1,0 @@
-[35m[1mScanning dependencies of target nd[0m
-[ 50%] [32mBuilding CXX object CMakeFiles/nd.dir/src/main.cpp.o[0m
-[100%] [32m[1mLinking CXX shared library /home/knight/knightbot/our_workspace/devel/.private/master_node/lib/libnd.so[0m
-[100%] Built target nd

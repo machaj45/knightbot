@@ -1,8 +1,0 @@
-prefix=/home/knight/knightbot/our_workspace/install
-
-Name: master_node
-Description: Description of master_node
-Version: 0.1.0
-Cflags: 
-Libs: -L/home/knight/knightbot/our_workspace/install/lib -lnodelet_plugins
-Requires: nodelet

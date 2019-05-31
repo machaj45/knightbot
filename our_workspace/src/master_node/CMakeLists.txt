@@ -31,6 +31,7 @@ include_directories(
   include #headers in include
   ${catkin_INCLUDE_DIRS}
   ${PCL_INCLUDE_DIRS}
+  ${EIGEN_INCLUDE_DIRS}
 )
 
 

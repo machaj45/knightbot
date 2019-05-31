@@ -1,8 +1,0 @@
-prefix=/home/knight/knightbot/our_workspace/install
-
-Name: robot_setup_tf
-Description: Description of robot_setup_tf
-Version: 0.0.0
-Cflags: 
-Libs: -L/home/knight/knightbot/our_workspace/install/lib 
-Requires: 

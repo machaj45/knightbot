@@ -1,6 +1,0 @@
-devel_space: /home/knight/knightbot/our_workspace/devel
-install: false
-install_space: /home/knight/knightbot/our_workspace/install
-profile: default
-source_space: /home/knight/knightbot/our_workspace/src
-workspace: /home/knight/knightbot/our_workspace

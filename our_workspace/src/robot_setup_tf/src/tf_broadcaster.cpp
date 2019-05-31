@@ -1,6 +1,5 @@
 #include <ros/ros.h>
 #include <tf/transform_broadcaster.h>
-#include <tf2/LinearMath/Quaternion.h>
 
 int main(int argc, char** argv){
   ros::init(argc, argv, "robot_tf_publisher");
@@ -10,11 +9,11 @@ int main(int argc, char** argv){
 
   tf::TransformBroadcaster broadcaster;
 
-  tf2::Quaternion orientation;
-  tf::Vector3 trans  = tf::Vector3(0.055, 0.0325, 0.32));
-  tf::Quaterinon rot = orientation.setRPY( 0, (-34/180)*3.14159, 0 );
+  tf::Quaternion orientation;
+  tf::Vector3 trans  = tf::Vector3(0.055, 0.0325, 0.32);
+  orientation.setRPY( 0, (-34/180)*3.14159, 0 );
   while(n.ok()){
-    broadcaster.sendTransform(tf::StampedTransform(tf::Transform(rot, trans),ros::Time::now(),"base_link", "camera_link"));
+    broadcaster.sendTransform(tf::StampedTransform(tf::Transform(orientation, trans),ros::Time::now(),"base_link", "camera_link"));
     r.sleep();
   }
 }	
