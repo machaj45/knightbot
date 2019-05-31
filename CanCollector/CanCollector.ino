@@ -16,6 +16,7 @@ boolean motorsInited = false;
 //false: ready to collect cans
 //true: ready to deploy cans
 boolean mode = false;
+boolean modeRequest = false;
 
 boolean operatingCan = false;
 
@@ -48,7 +49,8 @@ void setup() {
   pinMode(ELEVATOR_MOT_PIN2, OUTPUT);
   delay(10);  //mandatory for correct function of millis()
   magServo.write(MAG_SERVO_GRAB_DEG);
-
+  initCom();
+  
   //pushElevator();
   //rotateSun(false);
   //rotateRotGear(true);
@@ -67,7 +69,7 @@ void loop() {
   }
   
   updateServo();
-  //updateCom();
+  updateCom();
   updateSensors();
   updateMotors();
 }
@@ -82,21 +84,12 @@ void updateSensors(){
 }
 
 void getReadyToPush(){
-  mode = false;// must be changed only when not operating can
+  modeRequest = false;
 }
 
 void getReadyToPop(){
-  mode = true;
+  modeRequest = true;
 }
-
-void pushCan(){
-  
-}
-
-void popCan(){
-  
-}
-
 
 void releaseCan(){
   releaseCanAction = true;

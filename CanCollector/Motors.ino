@@ -62,6 +62,7 @@ void updateStateMachine(){
       case PICK:
           switch(substate){
               case 0:
+                  Serial.print('P');
                   pushElevator();
                   substate++;
                 break;
@@ -80,6 +81,7 @@ void updateStateMachine(){
                   }
                 break;
               case 4:
+                  Serial.print('T');
                   rotateRotGear(true);
                   rotateSun(true);
                   substate++;
@@ -115,20 +117,38 @@ void updateStateMachine(){
                   }
                 break;
               case 2:
-                  rotateRotGear(false);
-                  rotateSun(false);
+                  rotateElevator(false);
                   substate++;
                 break;
               case 3:
-                  if(!isMoving[ROTGEAR] && !isMoving[SUN]){
+                  if(!isMoving[ELEV]){
                     substate++;
                   }
                 break;
               case 4:
-                  
+                  rotateRotGear(false);
+                  rotateSun(false);
+                  substate++;
                 break;
               case 5:
-                  
+                  if(!isMoving[ROTGEAR] && !isMoving[SUN]){
+                    substate++;
+                  }
+                break;
+              case 6:
+                  rotateElevator(true);
+                  substate++;
+                break;
+              case 7:
+                  if(!isMoving[ELEV]){
+                    substate++;
+                  }
+                break;
+              case 8:
+                  releaseCan();
+                  cansCollected--;
+                  state = MOVING;
+                  substate = 0;
                 break;
             }
         break;
@@ -164,7 +184,11 @@ void updateStateMachine(){
                 break;
               case 6:
                   operatingCan = false;
-                  if(canPresent && cansCollected <= 8){
+                  if(mode != modeRequest){
+                    mode = modeRequest;
+                    substate = 0;
+                  }
+                  if(!mode && canPresent && cansCollected <= 8){
                     state = PICK;
                     substate = 0;
                     operatingCan = true;
@@ -172,7 +196,36 @@ void updateStateMachine(){
                 break;
             }
           }else{
-            
+            switch(substate){
+              case 0:
+                  rotateElevator(false);
+                  substate++;
+                break;
+              case 1:
+                  if(!isMoving[ELEV]){
+                    substate++;
+                  }
+                break;
+              case 2:
+                  rotateRotGear(true);
+                  substate++;
+                break;
+              case 3:
+                  if(!isMoving[ROTGEAR]){
+                    substate++;
+                  }
+                break;
+              case 4:
+                  if(mode != modeRequest){
+                    mode = modeRequest;
+                    substate = 0;
+                  }
+                  if(mode && cansCollected > 0){
+                    state = DEPLOY;
+                    substate = 0;
+                  }
+                break;
+            }
           }
         break;
     }
