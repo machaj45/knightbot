@@ -14,6 +14,7 @@ void waitForInit();
 void initStuff();
 int retrieveCanCount();
 void bb();
+void dischargeCans();
 
 
 SDL_Arduino_INA3221 ina3221;
@@ -63,13 +64,13 @@ void setup() {
   pinMode(LED2, OUTPUT);
   MSerial.begin(SERIAL1_BAUDRATE);             //motor controller
   MSerial.setTimeout(5);
-  //CSerial.begin(SERIAL2_BAUDRATE);             //picker
-  //CSerial.setTimeout(5);
+  CSerial.begin(SERIAL2_BAUDRATE);             //picker
+  CSerial.setTimeout(5);
   DSerial.begin(SERIAL3_BAUDRATE);             //display
   DSerial.setTimeout(1);  
   
-  pinMode(16, INPUT);
-  pinMode(17, INPUT);
+  //pinMode(16, INPUT);
+  //pinMode(17, INPUT);
 
 
   //waitForInit();  
@@ -84,8 +85,11 @@ void setup() {
   
   ina3221.begin();
   //clearDisplay();
-  
-  
+  digitalWrite(LED2, HIGH);
+  MSerial.println("4 100");
+  delay(1000);
+  CSerial.print("S1");
+  digitalWrite(LED2, LOW);
   
   
    //init ROS
@@ -102,16 +106,17 @@ void moveEngines(int command, int parameter){
    MSerial.print(command);
    MSerial.print(" ");
    MSerial.println(parameter);
-   //MSerial.println("4 100");
+   MSerial.println("4 100");
    //delay(50);
    DSerial.print("L2 ");
    DSerial.print(command);
    DSerial.print(" ");
    DSerial.println(parameter);     
    //DSerial.print("4 100 ");
-   DSerial.print(MSerial.peek());
+   int s = MSerial.read();
+   DSerial.print(s);
    DSerial.print(" | ");
-   DSerial.println((char)MSerial.read());
+   DSerial.println((char)s);
 
 
 
@@ -132,7 +137,7 @@ void loop(){
   CanCount.publish( &cans );
   DSerial.print("L4Cans in storage ");
   DSerial.println(retrieveCanCount());
- 
+  DSerial.println("L2");
  
  
   //clearDisplay();
@@ -144,10 +149,14 @@ void loop(){
   //DSerial.println("L5 STOP NECO NECO NECO");
   nh.spinOnce();  
   
-  delay(5000);
+  if(retrieveCanCount()==8){
+    dischargeCans();
+  }
+  
+  /*delay(5000);
   moveEngines(4, 50);
   delay(5000);
-  moveEngines(4, -50);
+  moveEngines(4, -50);   */
 }
 
 void bb(){
@@ -180,6 +189,7 @@ void bb(){
 
 
 int retrieveCanCount(){
+    while(CSerial.available()){CSerial.read();}
     CSerial.println("C");
     delay(10);
     if(CSerial.read()=='C'){
@@ -189,7 +199,27 @@ int retrieveCanCount(){
     }
 }
 
-
+void dischargeCans(){
+   static int canCount=retrieveCanCount();
+   CSerial.print("S2");
+   while(canCount>0){
+     digitalWrite(LED2, HIGH); 
+     digitalWrite(LED1, LOW);  
+     int newCan=retrieveCanCount();
+      printDisplayInfo();               //print battery voltage, motor, PC and system current onto display
+      printState();                     //print ROS connection state and arduino time   
+      DSerial.print("L4Discharging cans ");
+      DSerial.println(canCount);
+      DSerial.println("L2");
+      
+     if(newCan!=canCount){
+       canCount=newCan;
+       MSerial.println("4 -80");
+       DSerial.println("L2 4 -80 back up");
+     }  
+   }
+   digitalWrite(LED2, LOW);      
+}
 
 void printDisplayInfo() {
   float battVoltage = ina3221.getBusVoltage_V(1);
