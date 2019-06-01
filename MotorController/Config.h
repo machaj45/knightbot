@@ -31,8 +31,8 @@
 
 // ------------------------- Speeds -----------------------------
 
-#define DEFAULT_SPEED 200               // in mm/s
-#define DEFAULT_ACC 100                 // in mm/s*s
+#define DEFAULT_SPEED 300               // in mm/s
+#define DEFAULT_ACC 200                 // in mm/s*s
 
 
 // ---------------------- Communication -------------------------

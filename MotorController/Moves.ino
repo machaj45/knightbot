@@ -112,9 +112,9 @@ void updateMovement(){
   lastRErr = rErr;
   lastLErr = lErr;
 
-  Serial.print(targetRTacho - rightMotorTacho);
-  Serial.print("  ");
-  Serial.println(targetLTacho - leftMotorTacho);
+//  Serial.print(targetRTacho - rightMotorTacho);
+//  Serial.print("  ");
+//  Serial.println(targetLTacho - leftMotorTacho);
   // TODO callback to com for next command when completed,              NOT DONE YET
   if(actAvgSpeed < 3 && (abs(targetRTacho - rightMotorTacho) <= 500)&&(abs(targetLTacho - leftMotorTacho) <= 500)){
     nextCommand();
