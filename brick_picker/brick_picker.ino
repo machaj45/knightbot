@@ -67,7 +67,7 @@ void setup() {
   delay(500);
   moveEngines(5, -90);
   delay(500);
-  moveEngines(4, 400);
+  moveEngines(4, 500);
   delay(500);
   moveEngines(5, -90);
   delay(500);
@@ -79,9 +79,22 @@ void setup() {
   delay(500);
   moveEngines(5, 90);
   delay(500);
-  moveEngines(4, 700);
+  moveEngines(4, 750);
   delay(500);
-
+  int i = 0;
+  while(i<=5){
+    i++;
+    moveEngines(4, 740);
+    delay(500);
+    moveEngines(4, -740);
+    delay(500);
+    moveEngines(5, 90);
+    delay(500);
+    moveEngines(4, 200);
+    delay(500);
+    moveEngines(5, -90);
+    delay(500);
+  }
 }
 
 
