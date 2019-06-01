@@ -63,22 +63,31 @@ void setup() {
   digitalWrite(LED2, HIGH);
   while (DSerial.read() != 'B') {}
   digitalWrite(LED2, LOW);
-
+  moveEngines(4, 500);
+  delay(500);
+  moveEngines(5, -90);
+  delay(500);
+  moveEngines(4, 400);
+  delay(500);
+  moveEngines(5, -90);
+  delay(500);
+  moveEngines(4, 500);
+  delay(500);
+  moveEngines(5, 90);
+  delay(500);
+  moveEngines(4, 500);
+  delay(500);
+  moveEngines(5, 90);
+  delay(500);
+  moveEngines(4, 700);
+  delay(500);
 
 }
 
 
 void loop() {
 
-    moveEngines(4, 500);
-    moveEngines(5, -90);
-    moveEngines(4, 400);
-    moveEngines(5, -90);
-    moveEngines(4, 500);
-    moveEngines(5, 90);
-    moveEngines(4, 500);
-    moveEngines(5, 90);
-    moveEngines(4, 700);
+
 }
 
 

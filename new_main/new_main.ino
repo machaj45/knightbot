@@ -17,6 +17,8 @@ void turnRight();
 int readLine();
 
 
+
+
 SDL_Arduino_INA3221 ina3221;
 
 Adafruit_VL53L0X lox = Adafruit_VL53L0X();
@@ -222,20 +224,22 @@ void forward() {
 }
 
 bool checkObstacle() {
+  Serial.println("Check obstacle");
   bool enemy = false;
   MSerial.println("5 30");
   delay(500);
   MSerial.println("5 -60");
-  for (int i = 0; i < 3000; i++) {
+  for (int i = 0; i < 100; i++) {
     if (distance() < 300) {
       enemy = true;
     }
+    Serial.println(i);
     delay(1);
   }
   MSerial.println("5 30");
   delay(500);
 
-
+  Serial.println(enemy);
   return enemy;
 }
 
