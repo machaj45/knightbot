@@ -112,22 +112,24 @@ void loop() {
   }
   turnLeft();
   forward();
-  forward();
-  while (readLine > 2) {
+  //MSerial.println("4");
+  while (digitalRead(OPTO7)) {
     moveEngines(4, 10);
   }
   turnLeft();
-  forward();
-  forward();
+  
+
   if (retrieveCanCount() > 0) {
+    MSerial.println("5 180");
     dischargeCans();
+    MSerial.println("4 100");
+    MSerial.println("5 180");
   }
-
   forward();
+forward();
 
 
-
-  /*Serial.print(digitalRead(OPTO0));
+    Serial.print(digitalRead(OPTO0));
     Serial.print(digitalRead(OPTO1));
     Serial.print(digitalRead(OPTO2));
     Serial.print(digitalRead(OPTO3));
@@ -136,7 +138,7 @@ void loop() {
     Serial.print(digitalRead(OPTO6));
     Serial.println(digitalRead(OPTO7));
     distance();
-    delay(500);*/
+    delay(500);
   printDisplayInfo();
 
 
@@ -224,24 +226,29 @@ void forward() {
 }
 
 bool checkObstacle() {
-  Serial.println("Check obstacle");
-  bool enemy = false;
-  MSerial.println("5 30");
-  delay(500);
-  MSerial.println("5 -60");
-  for (int i = 0; i < 100; i++) {
+  /*Serial.println("Check obstacle");
+    bool enemy = false;
+    MSerial.println("5 30");
+    delay(500);
+    MSerial.println("5 -60");
+    for (int i = 0; i < 100; i++) {
     if (distance() < 300) {
       enemy = true;
     }
     Serial.println(i);
     delay(1);
-  }
-  MSerial.println("5 30");
-  delay(500);
+    }
+    MSerial.println("5 30");
+    delay(500);
 
-  Serial.println(enemy);
-  return enemy;
+    Serial.println(enemy);
+    return enemy;*/
+  if (distance() > 400) {
+    return false;
+  }
+  return true;
 }
+
 
 
 void turnLeft() {
