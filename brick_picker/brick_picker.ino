@@ -139,7 +139,7 @@ void forward() {
 }
 
 bool checkObstacle() {
-  bool enemy = false;
+  /*bool enemy = false;
   MSerial.println("5 30");
   delay(500);
   MSerial.println("5 -60");
@@ -152,7 +152,12 @@ bool checkObstacle() {
   MSerial.println("5 30");
   delay(500);
 
-  return enemy;
+  return enemy;*/
+  if (distance<400){
+    return true;
+  }
+  return false;
+  
 }
 
 
