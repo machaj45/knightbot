@@ -63,12 +63,17 @@ void updateCom(){
         Serial.print(0);
       }else if(isInfo(command)){
         flushSerial();
-        Serial.print(1);
+        //Serial.print(1);
         
         // TODO execute command
+        //hotfix no.2
+        if(command == QUEUE_LEN){
+          Serial.println(queueEnd);
+        }
         
       }else{
         if(isImmediate(command) && param > 0){
+          Serial.println("kvaaaaak");
           flushQueue();
           nextCommand();
         }

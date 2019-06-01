@@ -30,6 +30,8 @@ int rDir = 1, lDir = 1;
 long lastUpdate = 0;
 long timeDelta = 0;
 
+//hotfix variable
+long hotfixTime = 0;
 
 void initController(){
   for(int i = 0; i < BUFFER_SIZE;i++){
@@ -109,6 +111,15 @@ void updateMovement(){
 //  Serial.print("  ");
 //  Serial.println();
 
+  // hotfix to stucking
+  if(lastRErr != rErr || lastLErr != lErr){
+    hotfixTime = millis();
+  }
+  if(millis() - hotfixTime > 2000){     // if both left and right wheel errors stay same for 2 sec, take next command
+    nextCommand();
+  }
+  //  end of hotfix
+  
   lastRErr = rErr;
   lastLErr = lErr;
 
@@ -118,10 +129,12 @@ void updateMovement(){
   // TODO callback to com for next command when completed,              NOT DONE YET
   if(actAvgSpeed < 3 && (abs(targetRTacho - rightMotorTacho) <= 500)&&(abs(targetLTacho - leftMotorTacho) <= 500)){
     nextCommand();
+    Serial.print('R');
   }
 }
 
 void enableMotors(boolean enable){
+  hotfixTime = millis();  //        hotfix
   digitalWrite(R_MOTOR_ENABLE, enable ? HIGH:LOW);
   digitalWrite(L_MOTOR_ENABLE, enable ? HIGH:LOW);
 }
