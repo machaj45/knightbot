@@ -70,15 +70,15 @@ void setup() {
 
 void loop() {
 
-    moveEngines(4, 70);
+    moveEngines(4, 500);
     moveEngines(5, -90);
-    moveEngines(4, 35);
+    moveEngines(4, 400);
     moveEngines(5, -90);
-    moveEngines(4, 35);
+    moveEngines(4, 500);
     moveEngines(5, 90);
-    moveEngines(4, 45);
+    moveEngines(4, 500);
     moveEngines(5, 90);
-    moveEngines(4, 70);
+    moveEngines(4, 700);
 }
 
 
