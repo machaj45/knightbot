@@ -62,29 +62,33 @@ void setup() {
   }
   //while(DSerial.peek()=='D'){DSerial.read();}
 
-
+  lox.begin();
 
   ina3221.begin();
   clearDisplay();
   digitalWrite(LED1, HIGH);
   //MSerial.println("4 100");
-  delay(5000);
+  delay(1000);
   CSerial.print("S1");
   digitalWrite(LED1 , LOW);
 
 
-  //MSerial.println("9 100");
-  forward();
-  turnRight();
-  forward();
-  forward();
-  turnLeft();
-  forward();
-  turnLeft();
-  forward();
-  forward();
-  forward();
-  MSerial.println("1 -1 ");
+  MSerial.println("9 80");
+  digitalWrite(LED2, HIGH);
+  while (DSerial.read() != 'B') {}
+  digitalWrite(LED2, LOW);
+
+  /*forward();
+    turnRight();
+    forward();
+    forward();
+    turnLeft();
+    forward();
+    turnLeft();
+    forward();
+    forward();
+    forward();
+    MSerial.println("1 -1 ");*/
 
 
 }
@@ -92,17 +96,46 @@ void setup() {
 
 void loop() {
 
+  turnRight();
+  forward();
+  forward();
+  forward();
+  turnLeft();
+  forward();
+  forward();
+  turnLeft();
 
-  Serial.print(digitalRead(OPTO0));
-  Serial.print(digitalRead(OPTO1));
-  Serial.print(digitalRead(OPTO2));
-  Serial.print(digitalRead(OPTO3));
-  Serial.print(digitalRead(OPTO4));
-  Serial.print(digitalRead(OPTO5));
-  Serial.print(digitalRead(OPTO6));
-  Serial.println(digitalRead(OPTO7));
-  delay(500);
+  for (int i = 0; i < 6; i++) {
+    forward();
+  }
+  turnLeft();
+  forward();
+  forward();
+  while (readLine > 2) {
+    moveEngines(4, 10);
+  }
+  turnLeft();
+  forward();
+  forward();
+  if (retrieveCanCount() > 0) {
+    dischargeCans();
+  }
 
+  forward();
+
+
+
+  /*Serial.print(digitalRead(OPTO0));
+    Serial.print(digitalRead(OPTO1));
+    Serial.print(digitalRead(OPTO2));
+    Serial.print(digitalRead(OPTO3));
+    Serial.print(digitalRead(OPTO4));
+    Serial.print(digitalRead(OPTO5));
+    Serial.print(digitalRead(OPTO6));
+    Serial.println(digitalRead(OPTO7));
+    distance();
+    delay(500);*/
+  printDisplayInfo();
 
 
   /*DSerial.print("L4Cans in storage ");
@@ -159,15 +192,19 @@ void moveEngines(int command, int parameter) {
 
 
 
+
 }
 
+
+
 void forward() {
+  while (checkObstacle()) {}
   Serial.println("Forward!");
   while (MSerial.available()) {
     MSerial.read();
   }
   DSerial.println("L1Forward");
-  moveEngines(4, 160);
+  moveEngines(4, 200);
   delay(200);
   /*while (MSerial.available()) {
     MSerial.read();
@@ -176,12 +213,32 @@ void forward() {
     Serial.println("Waiting for R");
     }*/
   delay(2000);
-  while (readLine() > 2) {
+  /*while (readLine() > 2) {
     moveEngines(4, 10);
     delay(1000);
-  }
-  moveEngines(4, 10);
+    }
+    moveEngines(4, 10);*/
+
 }
+
+bool checkObstacle() {
+  bool enemy = false;
+  MSerial.println("5 30");
+  delay(500);
+  MSerial.println("5 -60");
+  for (int i = 0; i < 3000; i++) {
+    if (distance() < 300) {
+      enemy = true;
+    }
+    delay(1);
+  }
+  MSerial.println("5 30");
+  delay(500);
+
+
+  return enemy;
+}
+
 
 void turnLeft() {
   Serial.println("Turn left!");
@@ -196,7 +253,7 @@ void turnLeft() {
     }*/
   /*while (MSerial.read() != 'R') {
     Serial.println("Waiting for R");
-  }*/
+    }*/
 }
 
 void turnRight() {
@@ -216,15 +273,22 @@ void turnRight() {
 }
 
 int distance() {
+  VL53L0X_RangingMeasurementData_t measure;
   Serial.print("Reading a measurement... ");
   lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
-
+  int dist = 9999;
   if (measure.RangeStatus != 4) {  // phase failures have incorrect data
-    Serial.print("Distance (mm): "); Serial.println(measure.RangeMilliMeter);
+    dist = measure.RangeMilliMeter;
+    Serial.print("Distance (mm): "); Serial.println(dist);
+    DSerial.print("L4 Distance ");
+    DSerial.println(dist);
   } else {
     Serial.println(" out of range ");
+    return 9999;
+    DSerial.println("L4 Distance out of range");
   }
-  return measure.RangeMilliMeter;
+
+  return dist;
 }
 
 
@@ -280,6 +344,9 @@ int retrieveCanCount() {
 void dischargeCans() {
   static int canCount = retrieveCanCount();
   CSerial.print("S2");
+  delay(500);
+  CSerial.print("S2");
+  delay(500);
   while (canCount > 0) {
     digitalWrite(LED2, HIGH);
     digitalWrite(LED1, LOW);
@@ -307,7 +374,7 @@ void printDisplayInfo() {
   char foo0[5];
   delay(display_render_delay);
   DSerial.print("");
-  DSerial.print("L1");
+  DSerial.print("L0");
 
   dtostrf(battVoltage, 4, 2, foo0);
   DSerial.print(foo0);
