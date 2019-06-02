@@ -26,7 +26,6 @@ void updateCom(){
         getReadyToPop();
       }else{
         //flushSerial();
-        Serial.println(lineNum);
       }
     }else if(c == 'C'){
       Serial.print('C');

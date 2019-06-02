@@ -77,7 +77,9 @@ void setup() {
 
   MSerial.println("9 80");
   digitalWrite(LED2, HIGH);
-  while (DSerial.read() != 'B') {}
+  while (DSerial.read() != 'B') {
+    printDisplayInfo();
+  }
   digitalWrite(LED2, LOW);
 
   /*forward();
@@ -99,46 +101,63 @@ void setup() {
 void loop() {
 
   turnRight();
+  printDisplayInfo();
   forward();
+  printDisplayInfo();
   forward();
+  printDisplayInfo();
   forward();
+  printDisplayInfo();
   turnLeft();
+  printDisplayInfo();
   forward();
+  printDisplayInfo();
   forward();
+  printDisplayInfo();
   turnLeft();
-
+  printDisplayInfo();
   for (int i = 0; i < 6; i++) {
     forward();
+    printDisplayInfo();
   }
   turnLeft();
-  forward();
-  forward();
-  while (readLine > 2) {
-    moveEngines(4, 10);
-  }
-  turnLeft();
-  forward();
-  forward();
-  if (retrieveCanCount() > 0) {
-    dischargeCans();
-  }
-
-  forward();
-
-
-
-  /*Serial.print(digitalRead(OPTO0));
-    Serial.print(digitalRead(OPTO1));
-    Serial.print(digitalRead(OPTO2));
-    Serial.print(digitalRead(OPTO3));
-    Serial.print(digitalRead(OPTO4));
-    Serial.print(digitalRead(OPTO5));
-    Serial.print(digitalRead(OPTO6));
-    Serial.println(digitalRead(OPTO7));
-    distance();
-    delay(500);*/
   printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  MSerial.println("4 50");
+  while (digitalRead(OPTO7) == HIGH) {
+    moveEngines(4, 10);
+    delay(500);
+  }
+  turnLeft();
+  MSerial.println("4 -150");
 
+  delay(2000);
+  // if (retrieveCanCount() > 0) {
+  /*MSerial.println("5 180");
+  dischargeCans();
+  MSerial.println("4 -100");
+  MSerial.println("5 180");
+  //}*/
+
+
+
+  //forward();
+  //forward();
+
+
+  Serial.print(digitalRead(OPTO0));
+  Serial.print(digitalRead(OPTO1));
+  Serial.print(digitalRead(OPTO2));
+  Serial.print(digitalRead(OPTO3));
+  Serial.print(digitalRead(OPTO4));
+  Serial.print(digitalRead(OPTO5));
+  Serial.print(digitalRead(OPTO6));
+  Serial.println(digitalRead(OPTO7));
+  distance();
+  delay(500);
+  printDisplayInfo();
+  while (true);
 
   /*DSerial.print("L4Cans in storage ");
     DSerial.println(retrieveCanCount());
@@ -214,7 +233,7 @@ void forward() {
   /*while (MSerial.read() != 'R') {
     Serial.println("Waiting for R");
     }*/
-  delay(2000);
+  delay(3000);
   /*while (readLine() > 2) {
     moveEngines(4, 10);
     delay(1000);
@@ -224,24 +243,29 @@ void forward() {
 }
 
 bool checkObstacle() {
-  Serial.println("Check obstacle");
-  bool enemy = false;
-  MSerial.println("5 30");
-  delay(500);
-  MSerial.println("5 -60");
-  for (int i = 0; i < 100; i++) {
+  /*Serial.println("Check obstacle");
+    bool enemy = false;
+    MSerial.println("5 30");
+    delay(500);
+    MSerial.println("5 -60");
+    for (int i = 0; i < 100; i++) {
     if (distance() < 300) {
       enemy = true;
     }
     Serial.println(i);
     delay(1);
-  }
-  MSerial.println("5 30");
-  delay(500);
+    }
+    MSerial.println("5 30");
+    delay(500);
 
-  Serial.println(enemy);
-  return enemy;
+    Serial.println(enemy);
+    return enemy;*/
+  if (distance() > 400) {
+    return false;
+  }
+  return true;
 }
+
 
 
 void turnLeft() {
