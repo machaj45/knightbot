@@ -17,7 +17,8 @@ void turnRight();
 int readLine();
 
 
-
+long startTime = 0;
+boolean collision = false;
 
 SDL_Arduino_INA3221 ina3221;
 
@@ -81,7 +82,7 @@ void setup() {
     printDisplayInfo();
   }
   digitalWrite(LED2, LOW);
-
+  startTime = millis();
   /*forward();
     turnRight();
     forward();
@@ -125,14 +126,45 @@ void loop() {
   forward();
   printDisplayInfo();
   MSerial.println("4 50");
+  delay(500);
   while (digitalRead(OPTO7) == HIGH) {
     moveEngines(4, 10);
-    delay(500);
+    delay(700);
   }
   turnLeft();
-  MSerial.println("4 -150");
+
+  while(millis() - startTime < 120000){   //2minuty
+    delay(5);
+    printDisplayInfo();
+  }
+
+  MSerial.println("4 -250");
 
   delay(2000);
+
+  //turnLeft();
+  MSerial.println("5 80");
+  delay(2000);
+  for (int i = 0; i < 6; i++) {
+    forward();
+    printDisplayInfo();
+  }
+  turnRight();
+  forward();
+  printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  forward();
+  printDisplayInfo();
+  delay(1000);
+  MSerial.println("6 90");
+  
   // if (retrieveCanCount() > 0) {
   /*MSerial.println("5 180");
   dischargeCans();
@@ -219,7 +251,13 @@ void moveEngines(int command, int parameter) {
 
 
 void forward() {
-  while (checkObstacle()) {}
+  long t = millis();
+  while (checkObstacle()) {
+    if(millis() - t > 20000 && !collision){
+      collision = true;
+      break;
+    }
+  }
   Serial.println("Forward!");
   while (MSerial.available()) {
     MSerial.read();
@@ -270,6 +308,7 @@ bool checkObstacle() {
 
 void turnLeft() {
   Serial.println("Turn left!");
+  DSerial.println("L1Left");
   while (MSerial.available()) {
     MSerial.read();
   }
@@ -424,7 +463,8 @@ void printDisplayInfo() {
     DSerial.println("P0");
   }
 
-
+  DSerial.print("L5   ");
+  DSerial.println((millis() - startTime)/1000);
 }
 
 void clearDisplay() {

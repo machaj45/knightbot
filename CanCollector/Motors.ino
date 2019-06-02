@@ -188,7 +188,7 @@ void updateStateMachine(){
                     mode = modeRequest;
                     substate = 0;
                   }
-                  if(!mode && canPresent && cansCollected <= 8){
+                  if(!mode && canPresent && cansCollected < 1){
                     state = PICK;
                     substate = 0;
                     operatingCan = true;
