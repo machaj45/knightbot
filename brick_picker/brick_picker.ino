@@ -16,14 +16,32 @@ void turnLeft();
 void turnRight();
 int readLine();
 
+
+  Adafruit_VL53L0X lox = Adafruit_VL53L0X();
+int distance() {
+  VL53L0X_RangingMeasurementData_t measure;
+  Serial.print("Reading a measurement... ");
+  delay(300);
+  lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
+  delay(300);
+  int dist = 9999;
+  if (measure.RangeStatus != 4) {  // phase failures have incorrect data
+    dist = measure.RangeMilliMeter;
+    Serial.print("Distance (mm): "); Serial.println(dist);
+    DSerial.print("L4 Distance ");
+    DSerial.println(dist);
+  } else {
+    Serial.println(" out of range ");
+    return 9999;
+    DSerial.println("L4 Distance out of range");
+  }
+
+  return dist;
+}
 SDL_Arduino_INA3221 ina3221;
 
-Adafruit_VL53L0X lox = Adafruit_VL53L0X();
-
-VL53L0X_RangingMeasurementData_t measure;
 
 void setup() {
-
   pinMode(LED1, OUTPUT);
   pinMode(LED2, OUTPUT);
   MSerial.begin(SERIAL1_BAUDRATE);             //motor controller
@@ -61,46 +79,114 @@ void setup() {
 
   MSerial.println("9 80");
   digitalWrite(LED2, HIGH);
+  printDisplayInfo();
   while (DSerial.read() != 'B') {}
   digitalWrite(LED2, LOW);
-  moveEngines(4, 500);
-  delay(500);
-  moveEngines(5, -90);
-  delay(500);
-  moveEngines(4, 500);
-  delay(500);
-  moveEngines(5, -90);
-  delay(500);
-  moveEngines(4, 500);
-  delay(500);
-  moveEngines(5, 90);
-  delay(500);
-  moveEngines(4, 500);
-  delay(500);
-  moveEngines(5, 90);
-  delay(500);
-  moveEngines(4, 750);
-  delay(500);
-  int i = 0;
-  while(i<=5){
-    i++;
-    moveEngines(4, 740);
-    delay(500);
-    moveEngines(4, -740);
-    delay(500);
-    moveEngines(5, 90);
-    delay(500);
-    moveEngines(4, 200);
-    delay(500);
-    moveEngines(5, -90);
-    delay(500);
+  delay(5000);
+  int distacemachy;
+  distacemachy=0;
+  while (true) {
+    
+    distacemachy=distance();
+    if (distacemachy !=9999){
+    if (distacemachy > 110){
+      moveEngines(5, -10);
+      delay(2000);
+    }
+    
+    if (distacemachy < 90){
+      moveEngines(5, 10);
+      delay(2000);
+    }
+
+    }
+    if (distacemachy > 90 && distacemachy < 110){
+      moveEngines(4, 600);
+      delay(2000);
+    }
+
+      delay(2000);
+    
   }
+  while(true){}
+  /*
+  moveEngines(8, 480);
+  delay(150);
+  moveEngines(9, 700);
+  delay(150);
+  moveEngines(4, 800);
+  delay(150);
+  moveEngines(4, -600);
+  */
+  moveEngines(8, 300);
+  delay(150);
+  moveEngines(4, 800);
+  delay(5000);
+  moveEngines(5, -90);
+  delay(5000);
+  moveEngines(4, 450);
+  delay(5000);
+  moveEngines(5, -90);
+  delay(5000);
+  moveEngines(4, 600);
+  delay(5000);
+  moveEngines(5, 90);
+  delay(5000);
+  moveEngines(4, 500);
+  delay(5000);
+  moveEngines(5, 90);
+  delay(5000);
+  moveEngines(4, 1100);
+  delay(5000);
+  int i = 0;
+  while(i<1){
+    i++;
+    printDisplayInfo();
+    moveEngines(4, 1240);
+    delay(7000);
+    moveEngines(4, -1040);
+    delay(7000);
+    moveEngines(5, 90);
+    delay(5000);
+    moveEngines(4, 250);
+    delay(5000);
+    moveEngines(5, -90);
+    delay(5000);
+  }
+  
+    moveEngines(5, -90);
+    delay(5000);
+    moveEngines(4, 1840);
+    delay(5000);
+    moveEngines(4, -100);
+    delay(5000);
+    moveEngines(5, -90);
+    delay(5000);
+    moveEngines(4, 2500);
+    delay(5000);
+    moveEngines(4,-100);
+    delay(5000);
+    moveEngines(5, -90);
+    delay(5000);
+    moveEngines(4, 500);
+    delay(5000);
+    moveEngines(5, -90);
+    delay(5000);
+    moveEngines(4, 600);
+    delay(5000);
+    moveEngines(5, 90);
+    delay(5000);
+    moveEngines(4, 450);
+    delay(5000);
+    moveEngines(5, 90);
+    delay(5000);
+    moveEngines(4, 800);
+    delay(5000);
 }
 
 
 void loop() {
-
-
+  printDisplayInfo();
 }
 
 
@@ -140,7 +226,7 @@ void moveEngines(int command, int parameter) {
 }
 
 void forward() {
-  while (checkObstacle()) {}
+  /*while (checkObstacle()) {}
   Serial.println("Forward!");
   while (MSerial.available()) {
     MSerial.read();
@@ -149,6 +235,7 @@ void forward() {
   moveEngines(4, 200);
   delay(200);
   delay(2000);
+  */
 }
 
 bool checkObstacle() {
@@ -166,9 +253,9 @@ bool checkObstacle() {
   delay(500);
 
   return enemy;*/
-  if (distance<400){
+  /*if (distance<400){
     return true;
-  }
+  }*/
   return false;
   
 }
@@ -197,24 +284,6 @@ void turnRight() {
   }
 }
 
-int distance() {
-  VL53L0X_RangingMeasurementData_t measure;
-  Serial.print("Reading a measurement... ");
-  lox.rangingTest(&measure, false); // pass in 'true' to get debug data printout!
-  int dist = 9999;
-  if (measure.RangeStatus != 4) {  // phase failures have incorrect data
-    dist = measure.RangeMilliMeter;
-    Serial.print("Distance (mm): "); Serial.println(dist);
-    DSerial.print("L4 Distance ");
-    DSerial.println(dist);
-  } else {
-    Serial.println(" out of range ");
-    return 9999;
-    DSerial.println("L4 Distance out of range");
-  }
-
-  return dist;
-}
 
 
 void bb() {

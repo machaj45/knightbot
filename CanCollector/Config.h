@@ -36,7 +36,7 @@
 #define ELEV_PUSH_TIME 400            // in ms
 #define ELEV_PUSH_DIR true
 
-#define SUN_ENC_TRES 980
+#define SUN_ENC_TRES 973
 
 // ---------------------- Communication -------------------------
 
