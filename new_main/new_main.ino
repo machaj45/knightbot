@@ -115,6 +115,7 @@ void loop() {
   //MSerial.println("4");
   while (digitalRead(OPTO7)) {
     moveEngines(4, 10);
+    delay(1000);
   }
   turnLeft();
   
